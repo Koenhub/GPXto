@@ -1,6 +1,5 @@
 import type { Metadata } from "next"
-import { MergeGpxTool } from "@/components/merge-gpx-tool"
-import { LaunchingSoonSticker } from "@/components/launching-soon-sticker"
+import { MergeGpxTool } from "@/components/gpx-merge-tool"
 
 export const metadata: Metadata = {
   title: "GPX Merge - Combine multiple GPX files - GPXto",
@@ -12,7 +11,6 @@ export const metadata: Metadata = {
 export default function GpxMergePage() {
   return (
     <div className="max-w-3xl mx-auto relative">
-      <LaunchingSoonSticker />
       <section className="py-8">
         <h1 className="text-2xl mb-4">GPX Merge</h1>
         <p className="text-muted-foreground mb-8">

@@ -20,13 +20,16 @@ export function MergeGpxTool() {
   const [mergeOptions, setMergeOptions] = useState<Record<string, any>>({
     preserveAllData: true,
     combineWaypoints: true,
+    includeTracks: true,
+    includeRoutes: true,
   })
   const [hasDonated, setHasDonated] = useState(false)
-  const [fileName, setFileName] = useState<string>("")
+  const [fileName, setFileName] = useState<string>("merged.gpx")
   const [fileSize, setFileSize] = useState<number>(0)
 
   // Add a warning message for the coming soon feature
-  const isComingSoon = true
+  // Remove this line:
+  // const isComingSoon = true
 
   const router = useRouter()
 
@@ -99,12 +102,6 @@ export function MergeGpxTool() {
         total_size: files.reduce((total, file) => total + file.size, 0),
       })
     } else if (currentStep === 2) {
-      // Check if the feature is coming soon
-      if (isComingSoon) {
-        setError("This feature is coming soon! Check back later.")
-        return
-      }
-
       handleMerge()
     }
   }
@@ -226,11 +223,14 @@ export function MergeGpxTool() {
                 // Add other point data if preserveAllData is enabled
                 if (mergeOptions.preserveAllData) {
                   // Add heart rate if present
-                  const hr = point.querySelector("extensions")?.querySelector("hr")?.textContent
-                  if (hr) {
-                    merged += `        <extensions>\n`
-                    merged += `          <hr>${hr}</hr>\n`
-                    merged += `        </extensions>\n`
+                  const extensions = point.querySelector("extensions")
+                  if (extensions) {
+                    const hr = extensions.querySelector("hr")?.textContent
+                    if (hr) {
+                      merged += `        <extensions>\n`
+                      merged += `          <hr>${hr}</hr>\n`
+                      merged += `        </extensions>\n`
+                    }
                   }
                 }
 
@@ -331,9 +331,9 @@ export function MergeGpxTool() {
       merged += "</gpx>"
 
       setMergedGpx(merged)
-      setFileName("merged.gpx")
+      setFileName(fileName)
       setFileSize(new Blob([merged]).size)
-      setIsConverting(false)
+      setIsMerging(false)
       setCurrentStep(4) // Move to Download step after conversion is complete
 
       // Track when user reaches step 4 (Download)
@@ -392,7 +392,7 @@ export function MergeGpxTool() {
         // Create and configure the download link
         const downloadLink = document.createElement("a")
         downloadLink.href = url
-        downloadLink.download = "merged.gpx"
+        downloadLink.download = fileName
 
         // Append to document, click, and clean up
         document.body.appendChild(downloadLink)
@@ -435,7 +435,7 @@ export function MergeGpxTool() {
         // Create and configure the download link
         const downloadLink = document.createElement("a")
         downloadLink.href = url
-        downloadLink.download = "merged.gpx"
+        downloadLink.download = fileName
 
         // Append to document, click, and clean up
         document.body.appendChild(downloadLink)
@@ -463,8 +463,10 @@ export function MergeGpxTool() {
     setMergeOptions({
       preserveAllData: true,
       combineWaypoints: true,
+      includeTracks: true,
+      includeRoutes: true,
     })
-    setFileName("")
+    setFileName("merged.gpx")
     setFileSize(0)
   }
 
@@ -545,17 +547,10 @@ export function MergeGpxTool() {
           <div className="flex items-center justify-between">
             <h3 className="text-lg">Configure Merge Options</h3>
             <div className="text-sm text-gray-600">
-              {files.length} files selected ({files.reduce((total, file) => total + file.size, 0) / 1024} KB total)
+              {files.length} files selected ({(files.reduce((total, file) => total + file.size, 0) / 1024).toFixed(1)}{" "}
+              KB total)
             </div>
           </div>
-
-          {/* Add coming soon warning */}
-          {isComingSoon && (
-            <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-md text-yellow-800 mb-4">
-              <p className="font-medium">Coming Soon!</p>
-              <p className="text-sm">This feature is currently in development and will be available soon.</p>
-            </div>
-          )}
 
           <div className="p-4 border space-y-4">
             <div className="flex items-center justify-between mb-2">
@@ -627,17 +622,50 @@ export function MergeGpxTool() {
               </label>
               <p className="text-sm text-gray-600 ml-6">Include waypoints from all files in the merged output</p>
             </div>
+
+            <div>
+              <label className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  checked={mergeOptions.includeTracks}
+                  onChange={(e) => handleOptionChange("includeTracks", e.target.checked)}
+                />
+                <span>Include tracks</span>
+              </label>
+              <p className="text-sm text-gray-600 ml-6">Include track data from all files in the merged output</p>
+            </div>
+
+            <div>
+              <label className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  checked={mergeOptions.includeRoutes}
+                  onChange={(e) => handleOptionChange("includeRoutes", e.target.checked)}
+                />
+                <span>Include routes</span>
+              </label>
+              <p className="text-sm text-gray-600 ml-6">Include route data from all files in the merged output</p>
+            </div>
+          </div>
+
+          <div>
+            <label className="flex items-center space-x-2 mt-4">
+              <span>Output filename:</span>
+              <input
+                type="text"
+                value={fileName}
+                onChange={(e) => setFileName(e.target.value)}
+                className="border px-2 py-1 ml-2"
+              />
+            </label>
           </div>
 
           <div className="flex space-x-4">
             <button onClick={handlePreviousStep} className="px-4 py-2 border">
               Back
             </button>
-            <button
-              onClick={handleNextStep}
-              className={`px-4 py-2 ${isComingSoon ? "bg-yellow-500" : "bg-black"} text-white`}
-            >
-              {isComingSoon ? "Coming Soon" : "Merge Files"}
+            <button onClick={handleNextStep} className="px-4 py-2 bg-black text-white">
+              Merge Files
             </button>
           </div>
         </div>
@@ -675,6 +703,10 @@ export function MergeGpxTool() {
                 ))}
               </ul>
             </div>
+
+            <p className="text-sm mt-2">
+              Output file: {fileName} ({(fileSize / 1024).toFixed(1)} KB)
+            </p>
 
             {!hasDonated ? (
               <div className="space-y-3">
