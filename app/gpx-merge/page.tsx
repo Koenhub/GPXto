@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import { MergeGpxTool } from "@/components/gpx-merge-tool"
 
 export const metadata: Metadata = {
-  title: "GPX merge - Combine multiple GPX files - GPXto",
+  title: "GPX merge - Merge multiple GPX files - GPXto",
   description:
     "Free online tool to combine multiple GPX files into one. Join tracks from different days or devices into a single route. Easy to use and completely free.",
   keywords: "gpx merge, combine gpx, join gpx tracks, gpx merger, multiple gpx files",

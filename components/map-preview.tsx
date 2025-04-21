@@ -91,7 +91,17 @@ export function MapPreview({ gpxContent }: MapPreviewProps) {
     }
   }, [isClient, leaflet])
 
-  // Parse and display GPX data
+  // Controleer of de kaart correct wordt bijgewerkt wanneer gpxContent verandert
+  // Voeg een useEffect toe die de kaart opnieuw initialiseert wanneer gpxContent verandert
+
+  // Voeg een console.log toe om te debuggen
+  useEffect(() => {
+    if (gpxContent) {
+      console.log("GPX content updated, length:", gpxContent.length)
+    }
+  }, [gpxContent])
+
+  // Zorg ervoor dat de kaart correct wordt bijgewerkt wanneer de punten worden gereduceerd
   useEffect(() => {
     // Only proceed if we have the map, gpx content, and leaflet loaded
     if (!leafletMapRef.current || !gpxContent || !leaflet) return
@@ -125,7 +135,36 @@ export function MapPreview({ gpxContent }: MapPreviewProps) {
         const waypoints = Array.from(gpx.querySelectorAll("wpt"))
 
         if (waypoints.length === 0) {
-          setError("No track points or waypoints found in the GPX file.")
+          // Try route points if no track points or waypoints
+          const routePoints = Array.from(gpx.querySelectorAll("rtept"))
+
+          if (routePoints.length === 0) {
+            setError("No track points, waypoints, or route points found in the GPX file.")
+            return
+          }
+
+          const points = routePoints.map((rtept) => {
+            const lat = Number.parseFloat(rtept.getAttribute("lat") || "0")
+            const lon = Number.parseFloat(rtept.getAttribute("lon") || "0")
+            const name = rtept.querySelector("name")?.textContent || "Route Point"
+            return { lat, lon, name }
+          })
+
+          // Add markers for route points
+          points.forEach((point) => {
+            leaflet.marker([point.lat, point.lon]).addTo(map).bindPopup(point.name)
+          })
+
+          // Create polyline from route points
+          const polylinePoints = points.map((p) => [p.lat, p.lon])
+          const polyline = leaflet.polyline(polylinePoints, { color: "blue", weight: 3 })
+          polyline.addTo(map)
+
+          // Fit bounds if we have points
+          if (points.length > 0) {
+            map.fitBounds(polyline.getBounds())
+          }
+
           return
         }
 

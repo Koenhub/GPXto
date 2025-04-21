@@ -58,11 +58,11 @@
     "tailwindcss-animate": "^1.0.7",
     "vaul": "^0.9.6",
     "zod": "^3.24.1",
-    "leaflet": "latest",
     "file-saver": "latest",
     "xmldom": "latest",
     "jszip": "latest",
-    "xlsx": "latest"
+    "xlsx": "latest",
+    "leaflet": "latest"
   },
   "devDependencies": {
     "@types/node": "^22",
