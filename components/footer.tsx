@@ -135,7 +135,7 @@ export function Footer() {
             Terms
           </Link>
           <Link
-            href="https://ko-fi.com/gpxto/4"
+            href="https://ko-fi.com/gpxto"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-primary"

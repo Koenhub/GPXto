@@ -212,6 +212,14 @@ export function NavbarClient() {
             )}
           </div>
 
+          <a
+            href="https://ko-fi.com/gpxto"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm sm:text-base hover:text-primary transition-colors no-underline"
+          >
+            Donate
+          </a>
           <ThemeToggle />
         </div>
       </nav>
