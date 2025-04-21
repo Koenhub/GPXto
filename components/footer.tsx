@@ -141,7 +141,7 @@ export function Footer() {
         </div>
         <div className="flex items-center gap-2 mt-4">
           <Link href="/" aria-label="Go to homepage">
-            <div className="rounded-md overflow-hidden">
+            <div className="rounded-full overflow-hidden">
               <Image src="/gpxto-icon.png" alt="GPXto Logo" width={28} height={28} priority />
             </div>
           </Link>
