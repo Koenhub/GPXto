@@ -129,6 +129,18 @@ export default function Home() {
               Merge GPX files now →
             </Link>
           </div>
+
+          <div>
+            <h3 className="text-lg font-medium">GPX Split</h3>
+            <p>
+              Split a large GPX file into multiple smaller files. Divide by tracks, distance, time intervals, or number
+              of points. Perfect for breaking up long routes, separating multi-day activities, or working around device
+              limitations.
+            </p>
+            <Link href="/gpx-split" className="text-sm text-primary hover:underline mt-2 inline-block">
+              Split GPX files now →
+            </Link>
+          </div>
         </div>
       </section>
 

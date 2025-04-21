@@ -14,6 +14,7 @@ import {
   Code,
   Activity,
   GitMerge,
+  Scissors,
 } from "lucide-react"
 import { useState, useRef, useEffect } from "react"
 import { Logo } from "./logo"
@@ -122,6 +123,17 @@ export function NavbarClient() {
                           <GitMerge className="h-4 w-4 text-primary" />
                           <span>GPX Merge</span>
                           <span className="text-xs text-muted-foreground ml-auto">Combine routes</span>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          href="/gpx-split"
+                          className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-muted no-underline text-sm"
+                          onClick={() => setShowMegaMenu(false)}
+                        >
+                          <Scissors className="h-4 w-4 text-primary" />
+                          <span>GPX Split</span>
+                          <span className="text-xs text-muted-foreground ml-auto">Divide routes</span>
                         </Link>
                       </li>
                     </ul>

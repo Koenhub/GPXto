@@ -60,7 +60,8 @@
     "zod": "^3.24.1",
     "leaflet": "latest",
     "xmldom": "latest",
-    "file-saver": "latest"
+    "file-saver": "latest",
+    "jszip": "latest"
   },
   "devDependencies": {
     "@types/node": "^22",

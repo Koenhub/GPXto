@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { FileUp, Map, FileText, ImageIcon, Table, Code, Activity, GitMerge, Layers } from "lucide-react"
+import { FileUp, Map, FileText, ImageIcon, Table, Code, Activity, GitMerge, Layers, Scissors } from "lucide-react"
 
 export function Footer() {
   return (
@@ -54,6 +54,13 @@ export function Footer() {
                     <span>GPX Merge</span>
                   </Link>
                   <p className="text-xs text-muted-foreground mt-1 ml-6">Combine multiple GPX files into one</p>
+                </li>
+                <li>
+                  <Link href="/gpx-split" className="flex items-center gap-2 hover:text-primary no-underline">
+                    <Scissors className="h-4 w-4 text-primary flex-shrink-0" />
+                    <span>GPX Split</span>
+                  </Link>
+                  <p className="text-xs text-muted-foreground mt-1 ml-6">Divide GPX files into smaller parts</p>
                 </li>
                 {/* Add more utility tools here in the future */}
               </ul>
