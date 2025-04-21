@@ -21,13 +21,123 @@ import { Logo } from "./logo"
 
 export function NavbarClient() {
   const [showMegaMenu, setShowMegaMenu] = useState(false)
+  const [menuReady, setMenuReady] = useState(false)
   const megaMenuRef = useRef<HTMLDivElement>(null)
+  const converterButtonRef = useRef<HTMLButtonElement>(null)
+  const headerRef = useRef<HTMLElement>(null)
+  const [menuPosition, setMenuPosition] = useState({ left: 0, top: 0 })
+
+  // Calculate menu position before showing
+  const toggleMegaMenu = () => {
+    if (!showMegaMenu) {
+      // Calculate position before showing the menu
+      if (converterButtonRef.current && headerRef.current) {
+        const buttonRect = converterButtonRef.current.getBoundingClientRect()
+        const headerRect = headerRef.current.getBoundingClientRect()
+        const windowWidth = window.innerWidth
+        const menuWidth = windowWidth < 640 ? 280 : 600
+
+        // Get the container bounds
+        const containerLeft = headerRect.left
+        const containerRight = headerRect.right
+        const containerWidth = headerRect.width
+
+        // Calculate left position based on button
+        let leftPos = buttonRect.left
+
+        // Check if menu would go off-screen to the right
+        if (leftPos + menuWidth > containerRight) {
+          // Adjust to keep menu within container
+          leftPos = Math.max(containerLeft, containerRight - menuWidth)
+        }
+
+        // Check if menu would go off-screen to the left
+        if (leftPos < containerLeft) {
+          leftPos = containerLeft
+        }
+
+        // If menu is wider than container, center it
+        if (menuWidth > containerWidth) {
+          leftPos = containerLeft + (containerWidth - menuWidth) / 2
+        }
+
+        setMenuPosition({
+          left: leftPos,
+          top: buttonRect.bottom + 5,
+        })
+      }
+
+      // First set positions, then show menu
+      setShowMegaMenu(true)
+      // Use requestAnimationFrame to ensure position is set before showing
+      requestAnimationFrame(() => {
+        setMenuReady(true)
+      })
+    } else {
+      // Hide menu first, then reset ready state
+      setMenuReady(false)
+      setTimeout(() => {
+        setShowMegaMenu(false)
+      }, 200) // Match transition duration
+    }
+  }
+
+  // Recalculate on resize
+  useEffect(() => {
+    function handleResize() {
+      if (showMegaMenu && converterButtonRef.current && headerRef.current) {
+        const buttonRect = converterButtonRef.current.getBoundingClientRect()
+        const headerRect = headerRef.current.getBoundingClientRect()
+        const windowWidth = window.innerWidth
+        const menuWidth = windowWidth < 640 ? 280 : 600
+
+        // Get the container bounds
+        const containerLeft = headerRect.left
+        const containerRight = headerRect.right
+        const containerWidth = headerRect.width
+
+        // Calculate left position based on button
+        let leftPos = buttonRect.left
+
+        // Check if menu would go off-screen to the right
+        if (leftPos + menuWidth > containerRight) {
+          // Adjust to keep menu within container
+          leftPos = Math.max(containerLeft, containerRight - menuWidth)
+        }
+
+        // Check if menu would go off-screen to the left
+        if (leftPos < containerLeft) {
+          leftPos = containerLeft
+        }
+
+        // If menu is wider than container, center it
+        if (menuWidth > containerWidth) {
+          leftPos = containerLeft + (containerWidth - menuWidth) / 2
+        }
+
+        setMenuPosition({
+          left: leftPos,
+          top: buttonRect.bottom + 5,
+        })
+      }
+    }
+
+    window.addEventListener("resize", handleResize)
+    return () => {
+      window.removeEventListener("resize", handleResize)
+    }
+  }, [showMegaMenu])
 
   // Close mega menu when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (megaMenuRef.current && !megaMenuRef.current.contains(event.target as Node)) {
-        setShowMegaMenu(false)
+        if (showMegaMenu) {
+          setMenuReady(false)
+          setTimeout(() => {
+            setShowMegaMenu(false)
+          }, 200) // Match transition duration
+        }
       }
     }
 
@@ -35,10 +145,28 @@ export function NavbarClient() {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside)
     }
-  }, [])
+  }, [showMegaMenu])
+
+  // Handle scroll position changes
+  useEffect(() => {
+    function handleScroll() {
+      if (showMegaMenu && converterButtonRef.current) {
+        const buttonRect = converterButtonRef.current.getBoundingClientRect()
+        setMenuPosition((prev) => ({
+          ...prev,
+          top: buttonRect.bottom + 5,
+        }))
+      }
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    return () => {
+      window.removeEventListener("scroll", handleScroll)
+    }
+  }, [showMegaMenu])
 
   return (
-    <header className="py-3 sm:py-6">
+    <header className="py-3 sm:py-6" ref={headerRef}>
       <nav className="flex items-center justify-between">
         {/* Logo on the left */}
         <Logo />
@@ -47,8 +175,9 @@ export function NavbarClient() {
         <div className="flex items-center space-x-3 sm:space-x-6">
           <div className="relative" ref={megaMenuRef}>
             <button
+              ref={converterButtonRef}
               className="flex items-center space-x-1 no-underline text-sm sm:text-base"
-              onClick={() => setShowMegaMenu(!showMegaMenu)}
+              onClick={toggleMegaMenu}
               aria-expanded={showMegaMenu}
               aria-haspopup="true"
             >
@@ -61,7 +190,16 @@ export function NavbarClient() {
             </button>
 
             {showMegaMenu && (
-              <div className="absolute right-0 mt-1 sm:mt-2 w-[280px] sm:w-[600px] bg-background border rounded-md shadow-lg z-50 p-4">
+              <div
+                className={`fixed w-[280px] sm:w-[600px] bg-background border rounded-md shadow-lg z-50 p-4 transition-opacity duration-200 ${
+                  menuReady ? "opacity-100" : "opacity-0 pointer-events-none"
+                }`}
+                style={{
+                  left: `${menuPosition.left}px`,
+                  top: `${menuPosition.top}px`,
+                  maxWidth: "calc(100vw - 32px)", // Ensure it doesn't overflow viewport
+                }}
+              >
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <h3 className="font-medium text-sm mb-2 text-gray-400">Map Formats</h3>
@@ -70,7 +208,12 @@ export function NavbarClient() {
                         <Link
                           href="/gpx-to-kml"
                           className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-muted no-underline text-sm"
-                          onClick={() => setShowMegaMenu(false)}
+                          onClick={() => {
+                            setMenuReady(false)
+                            setTimeout(() => {
+                              setShowMegaMenu(false)
+                            }, 200)
+                          }}
                         >
                           <Map className="h-4 w-4 text-primary" />
                           <span>GPX to KML</span>
@@ -81,7 +224,12 @@ export function NavbarClient() {
                         <Link
                           href="/gpx-to-kmz"
                           className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-muted no-underline text-sm"
-                          onClick={() => setShowMegaMenu(false)}
+                          onClick={() => {
+                            setMenuReady(false)
+                            setTimeout(() => {
+                              setShowMegaMenu(false)
+                            }, 200)
+                          }}
                         >
                           <Layers className="h-4 w-4 text-primary" />
                           <span>GPX to KMZ</span>
@@ -92,7 +240,12 @@ export function NavbarClient() {
                         <Link
                           href="/gpx-to-geojson"
                           className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-muted no-underline text-sm"
-                          onClick={() => setShowMegaMenu(false)}
+                          onClick={() => {
+                            setMenuReady(false)
+                            setTimeout(() => {
+                              setShowMegaMenu(false)
+                            }, 200)
+                          }}
                         >
                           <Code className="h-4 w-4 text-primary" />
                           <span>GPX to GeoJSON</span>
@@ -103,7 +256,12 @@ export function NavbarClient() {
                         <Link
                           href="/gpx-to-google-maps"
                           className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-muted no-underline text-sm"
-                          onClick={() => setShowMegaMenu(false)}
+                          onClick={() => {
+                            setMenuReady(false)
+                            setTimeout(() => {
+                              setShowMegaMenu(false)
+                            }, 200)
+                          }}
                         >
                           <Map className="h-4 w-4 text-primary" />
                           <span>GPX to Google Maps</span>
@@ -118,7 +276,12 @@ export function NavbarClient() {
                         <Link
                           href="/gpx-merge"
                           className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-muted no-underline text-sm"
-                          onClick={() => setShowMegaMenu(false)}
+                          onClick={() => {
+                            setMenuReady(false)
+                            setTimeout(() => {
+                              setShowMegaMenu(false)
+                            }, 200)
+                          }}
                         >
                           <GitMerge className="h-4 w-4 text-primary" />
                           <span>GPX Merge</span>
@@ -129,7 +292,12 @@ export function NavbarClient() {
                         <Link
                           href="/gpx-split"
                           className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-muted no-underline text-sm"
-                          onClick={() => setShowMegaMenu(false)}
+                          onClick={() => {
+                            setMenuReady(false)
+                            setTimeout(() => {
+                              setShowMegaMenu(false)
+                            }, 200)
+                          }}
                         >
                           <Scissors className="h-4 w-4 text-primary" />
                           <span>GPX Split</span>
@@ -146,7 +314,12 @@ export function NavbarClient() {
                         <Link
                           href="/gpx-to-pdf"
                           className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-muted no-underline text-sm"
-                          onClick={() => setShowMegaMenu(false)}
+                          onClick={() => {
+                            setMenuReady(false)
+                            setTimeout(() => {
+                              setShowMegaMenu(false)
+                            }, 200)
+                          }}
                         >
                           <FileText className="h-4 w-4 text-primary" />
                           <span>GPX to PDF</span>
@@ -157,7 +330,12 @@ export function NavbarClient() {
                         <Link
                           href="/gpx-to-jpg"
                           className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-muted no-underline text-sm"
-                          onClick={() => setShowMegaMenu(false)}
+                          onClick={() => {
+                            setMenuReady(false)
+                            setTimeout(() => {
+                              setShowMegaMenu(false)
+                            }, 200)
+                          }}
                         >
                           <ImageIcon className="h-4 w-4 text-primary" />
                           <span>GPX to JPG</span>
@@ -172,7 +350,12 @@ export function NavbarClient() {
                         <Link
                           href="/gpx-to-excel"
                           className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-muted no-underline text-sm"
-                          onClick={() => setShowMegaMenu(false)}
+                          onClick={() => {
+                            setMenuReady(false)
+                            setTimeout(() => {
+                              setShowMegaMenu(false)
+                            }, 200)
+                          }}
                         >
                           <Table className="h-4 w-4 text-primary" />
                           <span>GPX to Excel</span>
@@ -183,7 +366,12 @@ export function NavbarClient() {
                         <Link
                           href="/gpx-to-csv"
                           className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-muted no-underline text-sm"
-                          onClick={() => setShowMegaMenu(false)}
+                          onClick={() => {
+                            setMenuReady(false)
+                            setTimeout(() => {
+                              setShowMegaMenu(false)
+                            }, 200)
+                          }}
                         >
                           <FileUp className="h-4 w-4 text-primary" />
                           <span>GPX to CSV</span>
@@ -194,7 +382,12 @@ export function NavbarClient() {
                         <Link
                           href="/gpx-to-fit"
                           className="flex items-center gap-2 px-2 py-1 rounded-md hover:bg-muted no-underline text-sm"
-                          onClick={() => setShowMegaMenu(false)}
+                          onClick={() => {
+                            setMenuReady(false)
+                            setTimeout(() => {
+                              setShowMegaMenu(false)
+                            }, 200)
+                          }}
                         >
                           <Activity className="h-4 w-4 text-primary" />
                           <span>GPX to FIT</span>
