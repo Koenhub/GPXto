@@ -166,7 +166,8 @@ export function FileUpload() {
 
         // In a real app, this would be a response from the API
         const timestamp = Date.now()
-        const filename = `converted-${timestamp}.${conversionType}`
+        const originalName = file?.name.replace(/\.gpx$/i, "") || "file"
+        const filename = `${originalName}-${conversionType}-${timestamp}.${conversionType}`
         setConvertedFile(filename)
       }, 3000)
     } catch (err) {
@@ -417,18 +418,7 @@ export function FileUpload() {
                           >
                             <Button className="w-full">Donate €2 & Download</Button>
                           </a>
-                          <a
-                            href="https://ko-fi.com/gpxto/5"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="block w-full"
-                            onClick={() => handleDonate("5")}
-                          >
-                            <Button variant="outline" className="w-full">
-                              Donate €5 & Download
-                            </Button>
-                          </a>
-                          <Button variant="ghost" className="w-full text-sm" onClick={handleDownload}>
+                          <Button variant="ghost" className="w-full text-sm border-none" onClick={handleDownload}>
                             Download without donating
                           </Button>
                         </div>

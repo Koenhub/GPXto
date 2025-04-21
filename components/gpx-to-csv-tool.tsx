@@ -5,10 +5,10 @@ import type React from "react"
 import { useState, useEffect } from "react"
 import FileSaver from "file-saver"
 import { MapPreview } from "@/components/map-preview"
-import { convertGpxToKml } from "@/utils/gpx-to-kml"
-import {} from "@/components/ui/tabs"
+import { convertGpxToCsv } from "@/utils/gpx-to-csv"
+import { trackEvent, ANALYTICS_EVENTS } from "@/utils/analytics"
 
-export function GpxToKmlTool() {
+export function GpxToCsvTool() {
   const [file, setFile] = useState<File | null>(null)
   const [isConverting, setIsConverting] = useState(false)
   const [convertedFile, setConvertedFile] = useState<string | null>(null)
@@ -19,9 +19,11 @@ export function GpxToKmlTool() {
   const [currentStep, setCurrentStep] = useState(1)
   const [hasDonated, setHasDonated] = useState(false)
   const [options, setOptions] = useState({
-    lineColor: "#FF0000",
-    lineWidth: 4,
+    delimiter: "comma",
+    includeHeaders: true,
+    timeFormat: "iso",
     includeElevation: true,
+    includeSpeed: false,
   })
 
   useEffect(() => {
@@ -35,7 +37,7 @@ export function GpxToKmlTool() {
 
     if (storedGpxContent && storedFileName && storedFileSize) {
       setGpxContent(storedGpxContent)
-      setFileName(storedFileName.replace(/\.gpx$/i, "") + "-kml.kml")
+      setFileName(storedFileName.replace(/\.gpx$/i, "") + "-csv.csv")
 
       setFileSize(Number.parseInt(storedFileSize, 10))
 
@@ -66,7 +68,7 @@ export function GpxToKmlTool() {
     }
 
     setFile(selectedFile)
-    setFileName(selectedFile.name.replace(/\.gpx$/i, "") + "-kml.kml")
+    setFileName(selectedFile.name.replace(/\.gpx$/i, "") + "-csv.csv")
     setFileSize(selectedFile.size)
 
     // Read the file content for preview
@@ -102,6 +104,13 @@ export function GpxToKmlTool() {
       }
       setError(null)
       setCurrentStep(2)
+
+      // Track when user reaches step 2 (Configure)
+      trackEvent(ANALYTICS_EVENTS.STEP_REACHED, {
+        step: 2,
+        tool: "gpx_to_csv",
+        file_size: file?.size || 0,
+      })
     } else if (currentStep === 2) {
       handleConvert()
     }
@@ -120,37 +129,83 @@ export function GpxToKmlTool() {
     setConvertedFile(null)
     setCurrentStep(3)
 
+    // Track when conversion starts
+    trackEvent(ANALYTICS_EVENTS.STEP_REACHED, {
+      step: 3,
+      tool: "gpx_to_csv",
+      file_size: file?.size || 0,
+      conversion_options: JSON.stringify(options),
+    })
+
     try {
       if (!gpxContent) {
         throw new Error("No GPX content to convert")
       }
 
-      // Convert GPX to KML
-      const kmlContent = convertGpxToKml(gpxContent, options)
-      setConvertedFile(kmlContent)
+      // Convert GPX to CSV
+      const csvContent = convertGpxToCsv(gpxContent, options)
+      setConvertedFile(csvContent)
       setIsConverting(false)
       setCurrentStep(4) // Move to Download step after conversion is complete
+
+      // Track when user reaches step 4 (Download)
+      trackEvent(ANALYTICS_EVENTS.STEP_REACHED, {
+        step: 4,
+        tool: "gpx_to_csv",
+        file_size: file?.size || 0,
+        success: true,
+      })
+
+      // Track when conversion completes successfully
+      trackEvent(ANALYTICS_EVENTS.CONVERSION_COMPLETED, {
+        tool: "gpx_to_csv",
+        success: true,
+        file_size: file?.size || 0,
+      })
     } catch (err) {
       setIsConverting(false)
       setError("Conversion failed. Please check your file and try again.")
       setCurrentStep(2)
       console.error("Error during conversion:", err)
+
+      // Track when conversion fails
+      trackEvent(ANALYTICS_EVENTS.CONVERSION_COMPLETED, {
+        tool: "gpx_to_csv",
+        success: false,
+        error: err instanceof Error ? err.message : "Unknown error",
+        file_size: file?.size || 0,
+      })
     }
   }
 
   const handleDownload = () => {
+    // Track the download
+    trackEvent(ANALYTICS_EVENTS.DOWNLOAD_CLICKED, {
+      tool: "gpx_to_csv",
+      donation: false,
+      file_size: file?.size || 0,
+    })
+
     if (convertedFile) {
-      const blob = new Blob([convertedFile], { type: "application/vnd.google-earth.kml+xml" })
+      const blob = new Blob([convertedFile], { type: "text/csv;charset=utf-8" })
       FileSaver.saveAs(blob, fileName)
     }
   }
 
   const handleDonate = (amount: string) => {
+    // Track the donation
+    trackEvent(ANALYTICS_EVENTS.DOWNLOAD_CLICKED, {
+      tool: "gpx_to_csv",
+      donation: true,
+      donation_amount: amount,
+      file_size: file?.size || 0,
+    })
+
     setHasDonated(true)
 
     // Perform the download after donation
     if (convertedFile) {
-      const blob = new Blob([convertedFile], { type: "application/vnd.google-earth.kml+xml" })
+      const blob = new Blob([convertedFile], { type: "text/csv;charset=utf-8" })
       FileSaver.saveAs(blob, fileName)
     }
   }
@@ -165,6 +220,15 @@ export function GpxToKmlTool() {
     setFileName("")
     setFileSize(0)
 
+    // Reset options to defaults
+    setOptions({
+      delimiter: "comma",
+      includeHeaders: true,
+      timeFormat: "iso",
+      includeElevation: true,
+      includeSpeed: false,
+    })
+
     // Clear stored file data
     sessionStorage.removeItem("gpxContent")
     sessionStorage.removeItem("gpxFileName")
@@ -173,26 +237,15 @@ export function GpxToKmlTool() {
 
   const handleOptionChange = (name: string, value: any) => {
     setOptions((prev) => ({ ...prev, [name]: value }))
-
-    // Re-convert with new options if we have GPX content
-    if (gpxContent && currentStep >= 2) {
-      try {
-        const kmlContent = convertGpxToKml(gpxContent, { ...options, [name]: value })
-        setConvertedFile(kmlContent)
-      } catch (error) {
-        console.error("Error during conversion:", error)
-        setError(`Conversion failed: ${error instanceof Error ? error.message : "Unknown error"}`)
-      }
-    }
   }
 
   return (
     <div className="max-w-3xl mx-auto">
       <section className="py-8">
-        <h1 className="text-2xl mb-4">Convert GPX to KML</h1>
+        <h1 className="text-2xl mb-4">Convert GPX to CSV</h1>
         <p className="text-muted-foreground mb-8">
-          Transform your GPX files into KML format for use with Google Earth and Google Maps. Our converter preserves
-          tracks, routes, waypoints, and elevation data.
+          Transform your GPX files into CSV (Comma-Separated Values) format for use with spreadsheet software,
+          databases, and data analysis tools. Our converter preserves coordinates, elevation, and time data.
         </p>
 
         <div className="space-y-4 sm:space-y-6">
@@ -249,7 +302,7 @@ export function GpxToKmlTool() {
           {currentStep === 2 && (
             <div className="space-y-6">
               <div className="flex items-center justify-between">
-                <h3 className="text-lg">Configure KML Options</h3>
+                <h3 className="text-lg">Configure CSV Options</h3>
                 {file && (
                   <div className="text-sm text-gray-600">
                     File: {file.name} ({(file.size / 1024).toFixed(2)} KB)
@@ -258,45 +311,53 @@ export function GpxToKmlTool() {
               </div>
 
               <div className="p-4 border space-y-4">
-                <h4 className="font-medium">Appearance</h4>
+                <h4 className="font-medium">Format Options</h4>
                 <div className="space-y-2">
-                  <label className="block">Line Color</label>
-                  <div className="flex gap-2">
-                    <input
-                      type="color"
-                      value={options.lineColor}
-                      onChange={(e) => handleOptionChange("lineColor", e.target.value)}
-                      className="w-12 h-8 p-1"
-                    />
-                    <input
-                      type="text"
-                      value={options.lineColor}
-                      onChange={(e) => handleOptionChange("lineColor", e.target.value)}
-                      className="flex-1 p-2 border"
-                    />
-                  </div>
+                  <label htmlFor="delimiter" className="block">
+                    Delimiter:
+                  </label>
+                  <select
+                    id="delimiter"
+                    value={options.delimiter}
+                    onChange={(e) => handleOptionChange("delimiter", e.target.value)}
+                    className="w-full p-2 border"
+                  >
+                    <option value="comma">Comma (,)</option>
+                    <option value="semicolon">Semicolon (;)</option>
+                    <option value="tab">Tab</option>
+                    <option value="pipe">Pipe (|)</option>
+                  </select>
                 </div>
-                <div className="space-y-2">
-                  <label className="block">Line Width</label>
+                <div className="flex items-center">
                   <input
-                    type="range"
-                    min="1"
-                    max="10"
-                    step="1"
-                    value={options.lineWidth}
-                    onChange={(e) => handleOptionChange("lineWidth", Number(e.target.value))}
-                    className="w-full"
+                    type="checkbox"
+                    id="include-headers"
+                    checked={options.includeHeaders}
+                    onChange={(e) => handleOptionChange("includeHeaders", e.target.checked)}
+                    className="mr-2"
                   />
-                  <div className="flex justify-between text-xs text-gray-600">
-                    <span>Thin</span>
-                    <span>Medium</span>
-                    <span>Thick</span>
-                  </div>
+                  <label htmlFor="include-headers">Include Column Headers</label>
                 </div>
               </div>
 
               <div className="p-4 border space-y-4">
-                <h4 className="font-medium">Content</h4>
+                <h4 className="font-medium">Data Options</h4>
+                <div className="space-y-2">
+                  <label htmlFor="time-format" className="block">
+                    Time Format:
+                  </label>
+                  <select
+                    id="time-format"
+                    value={options.timeFormat}
+                    onChange={(e) => handleOptionChange("timeFormat", e.target.value)}
+                    className="w-full p-2 border"
+                  >
+                    <option value="iso">ISO 8601 (2023-04-25T14:30:00Z)</option>
+                    <option value="local">Local Format (4/25/2023 2:30 PM)</option>
+                    <option value="unix">Unix Timestamp (1682434200)</option>
+                    <option value="none">Don't Include Time</option>
+                  </select>
+                </div>
                 <div className="flex items-center">
                   <input
                     type="checkbox"
@@ -306,6 +367,16 @@ export function GpxToKmlTool() {
                     className="mr-2"
                   />
                   <label htmlFor="include-elevation">Include Elevation Data</label>
+                </div>
+                <div className="flex items-center">
+                  <input
+                    type="checkbox"
+                    id="include-speed"
+                    checked={options.includeSpeed}
+                    onChange={(e) => handleOptionChange("includeSpeed", e.target.checked)}
+                    className="mr-2"
+                  />
+                  <label htmlFor="include-speed">Calculate and Include Speed Data</label>
                 </div>
               </div>
 
@@ -344,9 +415,29 @@ export function GpxToKmlTool() {
                     Your file has been successfully converted with the following options:
                   </p>
                   <ul className="text-sm space-y-1 ml-5 list-disc">
-                    <li>Line Color: {options.lineColor}</li>
-                    <li>Line Width: {options.lineWidth}</li>
+                    <li>
+                      Delimiter:{" "}
+                      {options.delimiter === "comma"
+                        ? "Comma (,)"
+                        : options.delimiter === "semicolon"
+                          ? "Semicolon (;)"
+                          : options.delimiter === "tab"
+                            ? "Tab"
+                            : "Pipe (|)"}
+                    </li>
+                    <li>Include Headers: {options.includeHeaders ? "Yes" : "No"}</li>
+                    <li>
+                      Time Format:{" "}
+                      {options.timeFormat === "iso"
+                        ? "ISO 8601"
+                        : options.timeFormat === "local"
+                          ? "Local Format"
+                          : options.timeFormat === "unix"
+                            ? "Unix Timestamp"
+                            : "None"}
+                    </li>
                     <li>Include Elevation: {options.includeElevation ? "Yes" : "No"}</li>
+                    <li>Include Speed: {options.includeSpeed ? "Yes" : "No"}</li>
                   </ul>
                 </div>
 
@@ -407,17 +498,19 @@ export function GpxToKmlTool() {
       <section className="py-8 border-t">
         <h2 className="text-xl mb-4">Features</h2>
         <ul className="list-disc pl-6 space-y-2">
-          <li>Convert GPX tracks, routes, and waypoints to KML format</li>
-          <li>Customize line color and width for better visibility in Google Earth</li>
-          <li>Option to include or exclude elevation data</li>
+          <li>Convert GPX tracks, routes, and waypoints to CSV format</li>
+          <li>Choose between different delimiter options (comma, semicolon, tab, pipe)</li>
+          <li>Option to include or exclude column headers</li>
+          <li>Multiple time format options (ISO, local, Unix timestamp)</li>
+          <li>Include elevation data from your GPX file</li>
+          <li>Calculate and include speed data based on timestamps</li>
           <li>Preview your route on an interactive map before downloading</li>
-          <li>View the generated KML code</li>
           <li>All processing happens in your browser - your data never leaves your computer</li>
         </ul>
       </section>
 
       <section className="py-8 border-t">
-        <h2 className="text-xl mb-4">About GPX and KML Files</h2>
+        <h2 className="text-xl mb-4">About GPX and CSV Files</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div>
             <h3 className="text-lg mb-2">What is a GPX file?</h3>
@@ -428,12 +521,42 @@ export function GpxToKmlTool() {
             </p>
           </div>
           <div>
-            <h3 className="text-lg mb-2">What is a KML file?</h3>
+            <h3 className="text-lg mb-2">What is a CSV file?</h3>
             <p className="text-muted-foreground">
-              KML (Keyhole Markup Language) is an XML-based format used to display geographic data in Earth browsers
-              such as Google Earth and Google Maps. KML uses a tag-based structure with nested elements and attributes.
+              CSV (Comma-Separated Values) is a simple text format used to store tabular data. Each line in a CSV file
+              represents a row of data, and values within each row are separated by a delimiter (typically a comma). CSV
+              files can be opened in spreadsheet software like Microsoft Excel or Google Sheets, as well as imported
+              into databases and data analysis tools.
             </p>
           </div>
+        </div>
+      </section>
+
+      <section className="py-8 border-t">
+        <h2 className="text-xl mb-4">Using CSV Files</h2>
+        <div className="prose dark:prose-invert max-w-none">
+          <p>Once you've converted your GPX file to CSV format, you can use it in various ways:</p>
+          <ul>
+            <li>
+              <strong>Data Analysis:</strong> Import into spreadsheet software like Excel or Google Sheets to analyze
+              your route data, create charts, or calculate statistics.
+            </li>
+            <li>
+              <strong>Database Import:</strong> Load your GPS data into databases for storage or further processing.
+            </li>
+            <li>
+              <strong>Custom Applications:</strong> Use the CSV data in your own applications or scripts for specialized
+              processing.
+            </li>
+            <li>
+              <strong>Data Visualization:</strong> Import into data visualization tools to create custom maps and
+              visualizations of your routes.
+            </li>
+          </ul>
+          <p>
+            The CSV format's simplicity and universal compatibility make it an excellent choice for working with GPS
+            data across different platforms and tools.
+          </p>
         </div>
       </section>
     </div>

@@ -296,7 +296,8 @@ export function FileUploadSimple({ initialConversionType = "", isComingSoon = fa
 
       // Simulate successful conversion
       const timestamp = Date.now()
-      const filename = `converted-${timestamp}.${conversionType}`
+      const originalName = fileName.replace(/\.gpx$/i, "") || file?.name.replace(/\.gpx$/i, "") || "file"
+      const filename = `${originalName}-${conversionType}-${timestamp}.${conversionType}`
       setConvertedFile(filename)
       setIsConverting(false)
       setCurrentStep(4) // Move to Download step after conversion is complete
@@ -557,16 +558,7 @@ export function FileUploadSimple({ initialConversionType = "", isComingSoon = fa
                   >
                     <button className="w-full px-4 py-2 bg-black text-white">Donate €2 & Download</button>
                   </a>
-                  <a
-                    href="https://ko-fi.com/gpxto/5"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block w-full"
-                    onClick={() => handleDonate("5")}
-                  >
-                    <button className="w-full px-4 py-2 border">Donate €5 & Download</button>
-                  </a>
-                  <button onClick={handleDownload} className="w-full px-4 py-2 border text-sm">
+                  <button onClick={handleDownload} className="w-full px-4 py-2 text-sm">
                     Download without donating
                   </button>
                 </div>

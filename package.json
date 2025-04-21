@@ -59,9 +59,10 @@
     "vaul": "^0.9.6",
     "zod": "^3.24.1",
     "leaflet": "latest",
-    "xmldom": "latest",
     "file-saver": "latest",
-    "jszip": "latest"
+    "xmldom": "latest",
+    "jszip": "latest",
+    "xlsx": "latest"
   },
   "devDependencies": {
     "@types/node": "^22",

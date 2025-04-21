@@ -3,15 +3,15 @@
 import type React from "react"
 
 import { useState, useEffect } from "react"
-import FileSaver from "file-saver"
-import { MapPreview } from "@/components/map-preview"
-import { convertGpxToKml } from "@/utils/gpx-to-kml"
-import {} from "@/components/ui/tabs"
+import { MapPreview } from "./map-preview"
+import { convertGpxToExcel } from "@/utils/gpx-to-excel"
+import { trackEvent, ANALYTICS_EVENTS } from "@/utils/analytics"
+import * as XLSX from "xlsx"
 
-export function GpxToKmlTool() {
+export function GpxToExcelTool() {
   const [file, setFile] = useState<File | null>(null)
   const [isConverting, setIsConverting] = useState(false)
-  const [convertedFile, setConvertedFile] = useState<string | null>(null)
+  const [convertedFile, setConvertedFile] = useState<XLSX.WorkBook | null>(null)
   const [fileName, setFileName] = useState<string>("")
   const [fileSize, setFileSize] = useState<number>(0)
   const [error, setError] = useState<string | null>(null)
@@ -19,9 +19,11 @@ export function GpxToKmlTool() {
   const [currentStep, setCurrentStep] = useState(1)
   const [hasDonated, setHasDonated] = useState(false)
   const [options, setOptions] = useState({
-    lineColor: "#FF0000",
-    lineWidth: 4,
+    includeHeaders: true,
+    timeFormat: "iso",
+    splitSheets: false,
     includeElevation: true,
+    includeSpeed: false,
   })
 
   useEffect(() => {
@@ -35,7 +37,7 @@ export function GpxToKmlTool() {
 
     if (storedGpxContent && storedFileName && storedFileSize) {
       setGpxContent(storedGpxContent)
-      setFileName(storedFileName.replace(/\.gpx$/i, "") + "-kml.kml")
+      setFileName(storedFileName.replace(/\.gpx$/i, "") + "-excel.xlsx")
 
       setFileSize(Number.parseInt(storedFileSize, 10))
 
@@ -66,7 +68,7 @@ export function GpxToKmlTool() {
     }
 
     setFile(selectedFile)
-    setFileName(selectedFile.name.replace(/\.gpx$/i, "") + "-kml.kml")
+    setFileName(selectedFile.name.replace(/\.gpx$/i, "") + "-excel.xlsx")
     setFileSize(selectedFile.size)
 
     // Read the file content for preview
@@ -102,6 +104,13 @@ export function GpxToKmlTool() {
       }
       setError(null)
       setCurrentStep(2)
+
+      // Track when user reaches step 2 (Configure)
+      trackEvent(ANALYTICS_EVENTS.STEP_REACHED, {
+        step: 2,
+        tool: "gpx_to_excel",
+        file_size: file?.size || 0,
+      })
     } else if (currentStep === 2) {
       handleConvert()
     }
@@ -120,38 +129,130 @@ export function GpxToKmlTool() {
     setConvertedFile(null)
     setCurrentStep(3)
 
+    // Track when conversion starts
+    trackEvent(ANALYTICS_EVENTS.STEP_REACHED, {
+      step: 3,
+      tool: "gpx_to_excel",
+      file_size: file?.size || 0,
+      conversion_options: JSON.stringify(options),
+    })
+
     try {
       if (!gpxContent) {
         throw new Error("No GPX content to convert")
       }
 
-      // Convert GPX to KML
-      const kmlContent = convertGpxToKml(gpxContent, options)
-      setConvertedFile(kmlContent)
+      // Convert GPX to Excel
+      const workbook = convertGpxToExcel(gpxContent, options)
+      setConvertedFile(workbook)
       setIsConverting(false)
       setCurrentStep(4) // Move to Download step after conversion is complete
+
+      // Track when user reaches step 4 (Download)
+      trackEvent(ANALYTICS_EVENTS.STEP_REACHED, {
+        step: 4,
+        tool: "gpx_to_excel",
+        file_size: file?.size || 0,
+        success: true,
+      })
+
+      // Track when conversion completes successfully
+      trackEvent(ANALYTICS_EVENTS.CONVERSION_COMPLETED, {
+        tool: "gpx_to_excel",
+        success: true,
+        file_size: file?.size || 0,
+      })
     } catch (err) {
       setIsConverting(false)
       setError("Conversion failed. Please check your file and try again.")
       setCurrentStep(2)
       console.error("Error during conversion:", err)
+
+      // Track when conversion fails
+      trackEvent(ANALYTICS_EVENTS.CONVERSION_COMPLETED, {
+        tool: "gpx_to_excel",
+        success: false,
+        error: err instanceof Error ? err.message : "Unknown error",
+        file_size: file?.size || 0,
+      })
     }
   }
 
   const handleDownload = () => {
+    // Track the download
+    trackEvent(ANALYTICS_EVENTS.DOWNLOAD_CLICKED, {
+      tool: "gpx_to_excel",
+      donation: false,
+      file_size: file?.size || 0,
+    })
+
     if (convertedFile) {
-      const blob = new Blob([convertedFile], { type: "application/vnd.google-earth.kml+xml" })
-      FileSaver.saveAs(blob, fileName)
+      // Write the workbook to a binary string
+      const excelBuffer = XLSX.write(convertedFile, { bookType: "xlsx", type: "array" })
+
+      // Create a Blob from the buffer
+      const blob = new Blob([excelBuffer], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      })
+
+      // Create a download URL
+      const url = URL.createObjectURL(blob)
+
+      // Create and configure the download link
+      const downloadLink = document.createElement("a")
+      downloadLink.href = url
+      downloadLink.download = fileName
+
+      // Append to document, click, and clean up
+      document.body.appendChild(downloadLink)
+      downloadLink.click()
+
+      // Small delay before cleanup to ensure download starts
+      setTimeout(() => {
+        document.body.removeChild(downloadLink)
+        URL.revokeObjectURL(url)
+      }, 100)
     }
   }
 
   const handleDonate = (amount: string) => {
+    // Track the donation
+    trackEvent(ANALYTICS_EVENTS.DOWNLOAD_CLICKED, {
+      tool: "gpx_to_excel",
+      donation: true,
+      donation_amount: amount,
+      file_size: file?.size || 0,
+    })
+
     setHasDonated(true)
 
     // Perform the download after donation
     if (convertedFile) {
-      const blob = new Blob([convertedFile], { type: "application/vnd.google-earth.kml+xml" })
-      FileSaver.saveAs(blob, fileName)
+      // Write the workbook to a binary string
+      const excelBuffer = XLSX.write(convertedFile, { bookType: "xlsx", type: "array" })
+
+      // Create a Blob from the buffer
+      const blob = new Blob([excelBuffer], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      })
+
+      // Create a download URL
+      const url = URL.createObjectURL(blob)
+
+      // Create and configure the download link
+      const downloadLink = document.createElement("a")
+      downloadLink.href = url
+      downloadLink.download = fileName
+
+      // Append to document, click, and clean up
+      document.body.appendChild(downloadLink)
+      downloadLink.click()
+
+      // Small delay before cleanup to ensure download starts
+      setTimeout(() => {
+        document.body.removeChild(downloadLink)
+        URL.revokeObjectURL(url)
+      }, 100)
     }
   }
 
@@ -165,6 +266,15 @@ export function GpxToKmlTool() {
     setFileName("")
     setFileSize(0)
 
+    // Reset options to defaults
+    setOptions({
+      includeHeaders: true,
+      timeFormat: "iso",
+      splitSheets: false,
+      includeElevation: true,
+      includeSpeed: false,
+    })
+
     // Clear stored file data
     sessionStorage.removeItem("gpxContent")
     sessionStorage.removeItem("gpxFileName")
@@ -173,26 +283,15 @@ export function GpxToKmlTool() {
 
   const handleOptionChange = (name: string, value: any) => {
     setOptions((prev) => ({ ...prev, [name]: value }))
-
-    // Re-convert with new options if we have GPX content
-    if (gpxContent && currentStep >= 2) {
-      try {
-        const kmlContent = convertGpxToKml(gpxContent, { ...options, [name]: value })
-        setConvertedFile(kmlContent)
-      } catch (error) {
-        console.error("Error during conversion:", error)
-        setError(`Conversion failed: ${error instanceof Error ? error.message : "Unknown error"}`)
-      }
-    }
   }
 
   return (
     <div className="max-w-3xl mx-auto">
       <section className="py-8">
-        <h1 className="text-2xl mb-4">Convert GPX to KML</h1>
+        <h1 className="text-2xl mb-4">Convert GPX to Excel</h1>
         <p className="text-muted-foreground mb-8">
-          Transform your GPX files into KML format for use with Google Earth and Google Maps. Our converter preserves
-          tracks, routes, waypoints, and elevation data.
+          Transform your GPX files into Excel (XLSX) format for data analysis and manipulation. Our converter preserves
+          coordinates, elevation, and time data in a structured spreadsheet format.
         </p>
 
         <div className="space-y-4 sm:space-y-6">
@@ -249,7 +348,7 @@ export function GpxToKmlTool() {
           {currentStep === 2 && (
             <div className="space-y-6">
               <div className="flex items-center justify-between">
-                <h3 className="text-lg">Configure KML Options</h3>
+                <h3 className="text-lg">Configure Excel Options</h3>
                 {file && (
                   <div className="text-sm text-gray-600">
                     File: {file.name} ({(file.size / 1024).toFixed(2)} KB)
@@ -258,45 +357,47 @@ export function GpxToKmlTool() {
               </div>
 
               <div className="p-4 border space-y-4">
-                <h4 className="font-medium">Appearance</h4>
-                <div className="space-y-2">
-                  <label className="block">Line Color</label>
-                  <div className="flex gap-2">
-                    <input
-                      type="color"
-                      value={options.lineColor}
-                      onChange={(e) => handleOptionChange("lineColor", e.target.value)}
-                      className="w-12 h-8 p-1"
-                    />
-                    <input
-                      type="text"
-                      value={options.lineColor}
-                      onChange={(e) => handleOptionChange("lineColor", e.target.value)}
-                      className="flex-1 p-2 border"
-                    />
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <label className="block">Line Width</label>
+                <h4 className="font-medium">Format Options</h4>
+                <div className="flex items-center">
                   <input
-                    type="range"
-                    min="1"
-                    max="10"
-                    step="1"
-                    value={options.lineWidth}
-                    onChange={(e) => handleOptionChange("lineWidth", Number(e.target.value))}
-                    className="w-full"
+                    type="checkbox"
+                    id="include-headers"
+                    checked={options.includeHeaders}
+                    onChange={(e) => handleOptionChange("includeHeaders", e.target.checked)}
+                    className="mr-2"
                   />
-                  <div className="flex justify-between text-xs text-gray-600">
-                    <span>Thin</span>
-                    <span>Medium</span>
-                    <span>Thick</span>
-                  </div>
+                  <label htmlFor="include-headers">Include Column Headers</label>
+                </div>
+                <div className="flex items-center">
+                  <input
+                    type="checkbox"
+                    id="split-sheets"
+                    checked={options.splitSheets}
+                    onChange={(e) => handleOptionChange("splitSheets", e.target.checked)}
+                    className="mr-2"
+                  />
+                  <label htmlFor="split-sheets">Split Tracks into Separate Sheets</label>
                 </div>
               </div>
 
               <div className="p-4 border space-y-4">
-                <h4 className="font-medium">Content</h4>
+                <h4 className="font-medium">Data Options</h4>
+                <div className="space-y-2">
+                  <label htmlFor="time-format" className="block">
+                    Time Format:
+                  </label>
+                  <select
+                    id="time-format"
+                    value={options.timeFormat}
+                    onChange={(e) => handleOptionChange("timeFormat", e.target.value)}
+                    className="w-full p-2 border"
+                  >
+                    <option value="iso">ISO 8601 (2023-04-25T14:30:00Z)</option>
+                    <option value="local">Excel Date Format</option>
+                    <option value="unix">Unix Timestamp (1682434200)</option>
+                    <option value="none">Don't Include Time</option>
+                  </select>
+                </div>
                 <div className="flex items-center">
                   <input
                     type="checkbox"
@@ -306,6 +407,16 @@ export function GpxToKmlTool() {
                     className="mr-2"
                   />
                   <label htmlFor="include-elevation">Include Elevation Data</label>
+                </div>
+                <div className="flex items-center">
+                  <input
+                    type="checkbox"
+                    id="include-speed"
+                    checked={options.includeSpeed}
+                    onChange={(e) => handleOptionChange("includeSpeed", e.target.checked)}
+                    className="mr-2"
+                  />
+                  <label htmlFor="include-speed">Calculate and Include Speed Data</label>
                 </div>
               </div>
 
@@ -344,9 +455,20 @@ export function GpxToKmlTool() {
                     Your file has been successfully converted with the following options:
                   </p>
                   <ul className="text-sm space-y-1 ml-5 list-disc">
-                    <li>Line Color: {options.lineColor}</li>
-                    <li>Line Width: {options.lineWidth}</li>
+                    <li>Include Headers: {options.includeHeaders ? "Yes" : "No"}</li>
+                    <li>Split into Sheets: {options.splitSheets ? "Yes" : "No"}</li>
+                    <li>
+                      Time Format:{" "}
+                      {options.timeFormat === "iso"
+                        ? "ISO 8601"
+                        : options.timeFormat === "local"
+                          ? "Excel Date Format"
+                          : options.timeFormat === "unix"
+                            ? "Unix Timestamp"
+                            : "None"}
+                    </li>
                     <li>Include Elevation: {options.includeElevation ? "Yes" : "No"}</li>
+                    <li>Include Speed: {options.includeSpeed ? "Yes" : "No"}</li>
                   </ul>
                 </div>
 
@@ -407,17 +529,19 @@ export function GpxToKmlTool() {
       <section className="py-8 border-t">
         <h2 className="text-xl mb-4">Features</h2>
         <ul className="list-disc pl-6 space-y-2">
-          <li>Convert GPX tracks, routes, and waypoints to KML format</li>
-          <li>Customize line color and width for better visibility in Google Earth</li>
-          <li>Option to include or exclude elevation data</li>
+          <li>Convert GPX tracks, routes, and waypoints to Excel (XLSX) format</li>
+          <li>Option to include or exclude column headers</li>
+          <li>Split tracks into separate worksheets or combine in a single sheet</li>
+          <li>Multiple time format options (ISO, Excel date, Unix timestamp)</li>
+          <li>Include elevation data from your GPX file</li>
+          <li>Calculate and include speed data based on timestamps</li>
           <li>Preview your route on an interactive map before downloading</li>
-          <li>View the generated KML code</li>
           <li>All processing happens in your browser - your data never leaves your computer</li>
         </ul>
       </section>
 
       <section className="py-8 border-t">
-        <h2 className="text-xl mb-4">About GPX and KML Files</h2>
+        <h2 className="text-xl mb-4">About GPX and Excel Files</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div>
             <h3 className="text-lg mb-2">What is a GPX file?</h3>
@@ -428,12 +552,46 @@ export function GpxToKmlTool() {
             </p>
           </div>
           <div>
-            <h3 className="text-lg mb-2">What is a KML file?</h3>
+            <h3 className="text-lg mb-2">What is an Excel file?</h3>
             <p className="text-muted-foreground">
-              KML (Keyhole Markup Language) is an XML-based format used to display geographic data in Earth browsers
-              such as Google Earth and Google Maps. KML uses a tag-based structure with nested elements and attributes.
+              Excel (XLSX) is a spreadsheet format developed by Microsoft. It allows you to organize, format, and
+              calculate data with formulas using a spreadsheet system broken up by rows and columns. Excel files can be
+              opened in Microsoft Excel, Google Sheets, LibreOffice Calc, and other spreadsheet applications.
             </p>
           </div>
+        </div>
+      </section>
+
+      <section className="py-8 border-t">
+        <h2 className="text-xl mb-4">Using Excel Files</h2>
+        <div className="prose dark:prose-invert max-w-none">
+          <p>Once you've converted your GPX file to Excel format, you can use it in various ways:</p>
+          <ul>
+            <li>
+              <strong>Data Analysis:</strong> Use Excel's powerful functions and formulas to analyze your route data,
+              calculate statistics like average speed, elevation gain, and more.
+            </li>
+            <li>
+              <strong>Visualization:</strong> Create charts and graphs to visualize your route data, such as elevation
+              profiles, speed over time, or distance traveled.
+            </li>
+            <li>
+              <strong>Data Cleaning:</strong> Clean and filter your GPS data to remove outliers or errors before further
+              processing.
+            </li>
+            <li>
+              <strong>Custom Calculations:</strong> Add your own custom calculations and formulas to derive new insights
+              from your GPS data.
+            </li>
+            <li>
+              <strong>Integration:</strong> Import your data into other systems or combine it with other datasets for
+              comprehensive analysis.
+            </li>
+          </ul>
+          <p>
+            Excel's familiar interface and powerful features make it an excellent choice for working with GPS data,
+            especially for users who are already comfortable with spreadsheet software.
+          </p>
         </div>
       </section>
     </div>

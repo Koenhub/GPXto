@@ -221,7 +221,7 @@ export function GpxSplitterTool() {
 
         // Add to results
         results.push({
-          name: `${fileName}_${sanitizeFileName(trackName)}.gpx`,
+          name: `${fileName}_${sanitizeFileName(trackName)}-gpx-split.gpx`,
           content: new XMLSerializer().serializeToString(newGpx),
         })
       })
@@ -262,14 +262,14 @@ export function GpxSplitterTool() {
         })
 
         results.push({
-          name: `${fileName}_${dayKey}.gpx`,
+          name: `${fileName}_${dayKey}-gpx-split.gpx`,
           content: new XMLSerializer().serializeToString(newGpx),
         })
       })
     } else {
       // If neither option is selected, just return the original file
       results.push({
-        name: `${fileName}.gpx`,
+        name: `${fileName}-gpx-split.gpx`,
         content: new XMLSerializer().serializeToString(gpx),
       })
     }
@@ -347,7 +347,7 @@ export function GpxSplitterTool() {
 
             // Add to results
             results.push({
-              name: `${fileName}_segment_${segmentIndex + 1}.gpx`,
+              name: `${fileName}_segment_${segmentIndex + 1}-gpx-split.gpx`,
               content: new XMLSerializer().serializeToString(newGpx),
             })
 
@@ -379,7 +379,7 @@ export function GpxSplitterTool() {
 
           // Add to results
           results.push({
-            name: `${fileName}_segment_${segmentIndex + 1}.gpx`,
+            name: `${fileName}_segment_${segmentIndex + 1}-gpx-split.gpx`,
             content: new XMLSerializer().serializeToString(newGpx),
           })
 
@@ -428,7 +428,7 @@ export function GpxSplitterTool() {
 
             // Add to results
             results.push({
-              name: `${fileName}_part_${segmentIndex + 1}.gpx`,
+              name: `${fileName}_part_${segmentIndex + 1}-gpx-split.gpx`,
               content: new XMLSerializer().serializeToString(newGpx),
             })
 
@@ -496,7 +496,7 @@ export function GpxSplitterTool() {
 
         // Add to results
         results.push({
-          name: `${fileName}_stage_${stageIndex + 1}_of_${stagesCount}.gpx`,
+          name: `${fileName}_stage_${stageIndex + 1}_of_${stagesCount}-gpx-split.gpx`,
           content: new XMLSerializer().serializeToString(newGpx),
         })
       }
@@ -574,7 +574,7 @@ export function GpxSplitterTool() {
 
             // Add to results
             results.push({
-              name: `${fileName}_time_${segmentIndex + 1}.gpx`,
+              name: `${fileName}_time_${segmentIndex + 1}-gpx-split.gpx`,
               content: new XMLSerializer().serializeToString(newGpx),
             })
 
@@ -606,7 +606,7 @@ export function GpxSplitterTool() {
 
           // Add to results
           results.push({
-            name: `${fileName}_time_${segmentIndex + 1}.gpx`,
+            name: `${fileName}_time_${segmentIndex + 1}-gpx-split.gpx`,
             content: new XMLSerializer().serializeToString(newGpx),
           })
 
@@ -710,7 +710,7 @@ export function GpxSplitterTool() {
         // Create and configure the download link
         const downloadLink = document.createElement("a")
         downloadLink.href = url
-        downloadLink.download = `${file?.name.replace(/\.gpx$/i, "") || "track"}_split.zip`
+        downloadLink.download = `${file?.name.replace(/\.gpx$/i, "") || "track"}_split-gpx-split.zip`
 
         // Append to document, click, and clean up
         document.body.appendChild(downloadLink)
@@ -1036,16 +1036,7 @@ export function GpxSplitterTool() {
                   >
                     <button className="w-full px-4 py-2 bg-black text-white">Donate €2 & Download All</button>
                   </a>
-                  <a
-                    href="https://ko-fi.com/gpxto/5"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block w-full"
-                    onClick={() => handleDonate("5")}
-                  >
-                    <button className="w-full px-4 py-2 border">Donate €5 & Download All</button>
-                  </a>
-                  <button onClick={handleDownloadAll} className="w-full px-4 py-2 border text-sm">
+                  <button onClick={handleDownloadAll} className="w-full px-4 py-2 text-sm">
                     Download All without donating
                   </button>
                 </div>

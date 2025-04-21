@@ -145,7 +145,7 @@ export default function ContactPageClient() {
                 <h3 className="font-medium">Can I convert multiple files at once?</h3>
                 <p className="text-muted-foreground">
                   For standard format conversions, you can only convert one file at a time. However, our{" "}
-                  <Link href="/merge-gpx" className="underline hover:text-primary">
+                  <Link href="/gpx-merge" className="underline hover:text-primary">
                     Merge GPX tool
                   </Link>{" "}
                   specifically allows you to upload and combine multiple GPX files into a single output file.

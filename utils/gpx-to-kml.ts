@@ -88,7 +88,8 @@ export function convertGpxToKml(gpxContent: string, options: ConversionOptions =
             const lat = points[k].getAttribute("lat")
             const ele = includeElevation ? points[k].getElementsByTagName("ele")[0]?.textContent || "0" : "0"
 
-            kml += `\n            ${lon},${lat},${ele}`
+            kml += `
+             ${lon},${lat},${ele}`
           }
         }
 
@@ -161,7 +162,8 @@ export function convertGpxToKml(gpxContent: string, options: ConversionOptions =
           const lat = routePoints[j].getAttribute("lat")
           const ele = includeElevation ? routePoints[j].getElementsByTagName("ele")[0]?.textContent || "0" : "0"
 
-          kml += `\n            ${lon},${lat},${ele}`
+          kml += `
+             ${lon},${lat},${ele}`
         }
 
         kml += `

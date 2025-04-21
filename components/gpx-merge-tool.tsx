@@ -24,7 +24,7 @@ export function MergeGpxTool() {
     includeRoutes: true,
   })
   const [hasDonated, setHasDonated] = useState(false)
-  const [fileName, setFileName] = useState<string>("merged.gpx")
+  const [fileName, setFileName] = useState<string>("")
   const [fileSize, setFileSize] = useState<number>(0)
 
   // Add a warning message for the coming soon feature
@@ -68,6 +68,12 @@ export function MergeGpxTool() {
         }
         reader.readAsText(file)
       })
+    }
+
+    if (newFiles.length > 0 && files.length === 0) {
+      // This is the first file being added, use its name for the output
+      const firstFileName = newFiles[0].name.replace(/\.gpx$/i, "")
+      setFileName(`${firstFileName}-gpx-merge.gpx`)
     }
   }
 
@@ -331,6 +337,16 @@ export function MergeGpxTool() {
       merged += "</gpx>"
 
       setMergedGpx(merged)
+      if (!fileName || fileName === "") {
+        // If filename is not set yet for some reason, use the first file's name
+        if (files.length > 0) {
+          const firstFileName = files[0].name.replace(/\.gpx$/i, "")
+          setFileName(`${firstFileName}-gpx-merge.gpx`)
+        } else {
+          // Fallback if no files (shouldn't happen)
+          setFileName("merged-gpx-merge.gpx")
+        }
+      }
       setFileName(fileName)
       setFileSize(new Blob([merged]).size)
       setIsMerging(false)
@@ -466,7 +482,7 @@ export function MergeGpxTool() {
       includeTracks: true,
       includeRoutes: true,
     })
-    setFileName("merged.gpx")
+    setFileName("")
     setFileSize(0)
   }
 
@@ -648,18 +664,6 @@ export function MergeGpxTool() {
             </div>
           </div>
 
-          <div>
-            <label className="flex items-center space-x-2 mt-4">
-              <span>Output filename:</span>
-              <input
-                type="text"
-                value={fileName}
-                onChange={(e) => setFileName(e.target.value)}
-                className="border px-2 py-1 ml-2"
-              />
-            </label>
-          </div>
-
           <div className="flex space-x-4">
             <button onClick={handlePreviousStep} className="px-4 py-2 border">
               Back
@@ -721,16 +725,7 @@ export function MergeGpxTool() {
                   >
                     <button className="w-full px-4 py-2 bg-black text-white">Donate €2 & Download</button>
                   </a>
-                  <a
-                    href="https://ko-fi.com/gpxto/5"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block w-full"
-                    onClick={() => handleDonate("5")}
-                  >
-                    <button className="w-full px-4 py-2 border">Donate €5 & Download</button>
-                  </a>
-                  <button onClick={handleDownload} className="w-full px-4 py-2 border text-sm">
+                  <button onClick={handleDownload} className="w-full px-4 py-2 text-sm">
                     Download without donating
                   </button>
                 </div>
