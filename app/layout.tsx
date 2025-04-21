@@ -10,20 +10,20 @@ export const metadata = {
   description:
     "Free online tools to convert GPX files to KML, PDF, Excel, KMZ, JPG, CSV, GeoJSON, and FIT formats. No registration needed, works in your browser.",
   openGraph: {
-    title: "GPXto - Convert GPX files online",
+    title: "GPXto - Convert GPX Files Online",
     description: "Free online tools to convert GPX files to various formats. All processing happens in your browser.",
     images: [
       {
         url: "/opengraph-image.png",
         width: 1200,
         height: 1200,
-        alt: "GPXto - Convert GPX files online",
+        alt: "GPXto - Convert GPX Files Online",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "GPXto - Convert GPX files online",
+    title: "GPXto - Convert GPX Files Online",
     description: "Free online tools to convert GPX files to various formats. All processing happens in your browser.",
     images: ["/opengraph-image.png"],
   },
