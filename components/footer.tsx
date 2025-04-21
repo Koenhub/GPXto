@@ -141,13 +141,15 @@ export function Footer() {
         </div>
         <div className="flex items-center gap-2 mt-4">
           <Link href="/" aria-label="Go to homepage">
-            <Image src="/gpxto-icon.png" alt="GPXto Logo" width={28} height={28} className="rounded-md" />
+            <div className="rounded-md overflow-hidden">
+              <Image src="/gpxto-icon.png" alt="GPXto Logo" width={28} height={28} priority />
+            </div>
           </Link>
-          <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} GPXto • All processing happens in your browser - your data never leaves your
-            computer
-          </p>
+          <p className="text-sm text-muted-foreground">© {new Date().getFullYear()} GPXto</p>
         </div>
+        <p className="text-sm text-muted-foreground mt-2">
+          All processing happens in your browser - your data never leaves your computer
+        </p>
         <p className="text-xs text-muted-foreground mt-2">
           Google Maps™ is a registered trademark of Google LLC. We are not affiliated with, endorsed by, or associated
           with Google LLC.
