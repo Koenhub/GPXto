@@ -25,7 +25,7 @@ export default function AboutPage() {
           pay license fees.
         </p>
 
-        <h2 className="text-xl mt-8 mb-4">Our Conversion Tools</h2>
+        <h2 className="text-xl mt-8 mb-4">Our conversion tools</h2>
         <p>We offer a variety of conversion tools to help you work with your GPX data:</p>
 
         <ul className="list-disc pl-6 space-y-2">
@@ -79,7 +79,7 @@ export default function AboutPage() {
           </li>
         </ul>
 
-        <h2 className="text-xl mt-8 mb-4">Additional Tools</h2>
+        <h2 className="text-xl mt-8 mb-4">Additional tools</h2>
         <p>Beyond simple format conversion, we offer specialized tools to enhance your GPS data workflow:</p>
 
         <ul className="list-disc pl-6 space-y-2">
@@ -99,7 +99,7 @@ export default function AboutPage() {
           </li>
         </ul>
 
-        <h2 className="text-xl mt-8 mb-4">How Our Tools Work</h2>
+        <h2 className="text-xl mt-8 mb-4">How our tools work</h2>
         <p>
           All of our conversion and processing tools operate entirely within your browser. This means your GPX files and
           route data never leave your computer - we don't store your data on our servers. This approach ensures maximum
@@ -116,7 +116,7 @@ export default function AboutPage() {
           files or any data contained within them on our servers. Your location data remains private and secure.
         </p>
 
-        <h2 className="text-xl mt-8 mb-4">Our Mission</h2>
+        <h2 className="text-xl mt-8 mb-4">Our mission</h2>
         <p>
           Our mission is to provide free, accessible tools for working with GPS data. Whether you're a hiker tracking
           your adventures, a cyclist analyzing your routes, or a developer working with geospatial data, we aim to make

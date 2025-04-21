@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import { GpxSplitterTool } from "@/components/gpx-splitter-tool"
 
 export const metadata: Metadata = {
-  title: "GPX Splitter - Split GPX files into smaller parts - GPXto",
+  title: "GPX splitter - Split GPX files into smaller parts - GPXto",
   description:
     "Free online tool to split GPX files into multiple smaller files. Divide by tracks, distance, time, or number of points. Easy to use and completely free.",
   keywords: "gpx split, divide gpx, split tracks, gpx splitter, break gpx file, segment gpx",
@@ -12,7 +12,7 @@ export default function GpxSplitPage() {
   return (
     <div className="max-w-3xl mx-auto relative">
       <section className="py-8">
-        <h1 className="text-2xl mb-4">GPX Splitter</h1>
+        <h1 className="text-2xl mb-4">GPX splitter</h1>
         <p className="text-muted-foreground mb-8">
           Split a large GPX file into multiple smaller files. Divide by tracks, distance, time intervals, or number of
           points.
@@ -36,7 +36,7 @@ export default function GpxSplitPage() {
       </section>
 
       <section className="py-8 border-t">
-        <h2 className="text-xl mb-4">When to Split GPX Files</h2>
+        <h2 className="text-xl mb-4">When to split GPX files</h2>
         <div className="prose dark:prose-invert max-w-none">
           <p>Splitting GPX files is useful in several scenarios:</p>
           <ul>
@@ -62,7 +62,7 @@ export default function GpxSplitPage() {
       </section>
 
       <section className="py-8 border-t">
-        <h2 className="text-xl mb-4">How It Works</h2>
+        <h2 className="text-xl mb-4">How it works</h2>
         <div className="prose dark:prose-invert max-w-none">
           <p>
             Our GPX splitter tool analyzes your GPX file and divides it according to your chosen criteria. The process
@@ -82,21 +82,21 @@ export default function GpxSplitPage() {
       </section>
 
       <section className="py-8 border-t">
-        <h2 className="text-xl mb-4">Splitting Methods Explained</h2>
+        <h2 className="text-xl mb-4">Splitting methods explained</h2>
         <div className="prose dark:prose-invert max-w-none">
-          <h3>By Distance</h3>
+          <h3>By distance</h3>
           <p>
             Split your track every time it covers a specified distance. For example, you can create a new file every 5
             kilometers or miles. This is useful for breaking up long routes into equal-distance segments.
           </p>
 
-          <h3>By Number of Points</h3>
+          <h3>By number of points</h3>
           <p>
             Limit the number of trackpoints in each file. This is particularly useful when working with applications or
             devices that have limitations on the number of points they can process.
           </p>
 
-          <h3>By Number of Stages</h3>
+          <h3>By number of stages</h3>
           <p>
             Divide your track into a specific number of equal parts. This is perfect for creating multi-day itineraries
             or splitting a route into a predetermined number of segments. Simply specify how many files you want, and

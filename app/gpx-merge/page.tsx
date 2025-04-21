@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import { MergeGpxTool } from "@/components/gpx-merge-tool"
 
 export const metadata: Metadata = {
-  title: "GPX Merge - Combine multiple GPX files - GPXto",
+  title: "GPX merge - Combine multiple GPX files - GPXto",
   description:
     "Free online tool to combine multiple GPX files into one. Join tracks from different days or devices into a single route. Easy to use and completely free.",
   keywords: "gpx merge, combine gpx, join gpx tracks, gpx merger, multiple gpx files",
@@ -12,7 +12,7 @@ export default function GpxMergePage() {
   return (
     <div className="max-w-3xl mx-auto relative">
       <section className="py-8">
-        <h1 className="text-2xl mb-4">GPX Merge</h1>
+        <h1 className="text-2xl mb-4">GPX merge</h1>
         <p className="text-muted-foreground mb-8">
           Combine multiple GPX files into a single file. Perfect for joining tracks from different days or devices into
           one comprehensive route.
@@ -36,7 +36,7 @@ export default function GpxMergePage() {
       </section>
 
       <section className="py-8 border-t">
-        <h2 className="text-xl mb-4">When to Merge GPX Files</h2>
+        <h2 className="text-xl mb-4">When to merge GPX files</h2>
         <div className="prose dark:prose-invert max-w-none">
           <p>Merging GPX files is useful in several scenarios:</p>
           <ul>
@@ -59,7 +59,7 @@ export default function GpxMergePage() {
       </section>
 
       <section className="py-8 border-t">
-        <h2 className="text-xl mb-4">How It Works</h2>
+        <h2 className="text-xl mb-4">How it works</h2>
         <div className="prose dark:prose-invert max-w-none">
           <p>
             Our GPX merger tool analyzes the structure of each uploaded GPX file and intelligently combines them while

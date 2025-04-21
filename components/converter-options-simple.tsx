@@ -127,7 +127,7 @@ export function ConverterOptions({ type, options, onChange }: ConverterOptionsPr
             <div className="space-y-2">
               <h4 className="font-medium">Appearance</h4>
               <div className="space-y-2">
-                <label className="block">Line Color</label>
+                <label className="block">Line color</label>
                 <div className="flex gap-2">
                   <input
                     type="color"
@@ -144,7 +144,7 @@ export function ConverterOptions({ type, options, onChange }: ConverterOptionsPr
                 </div>
               </div>
               <div className="space-y-2">
-                <label className="block">Line Width</label>
+                <label className="block">Line width</label>
                 <input
                   type="range"
                   min="1"
@@ -165,7 +165,7 @@ export function ConverterOptions({ type, options, onChange }: ConverterOptionsPr
             <div className="space-y-2">
               <h4 className="font-medium">Structure</h4>
               <div className="space-y-2">
-                <label className="block">Folder Structure</label>
+                <label className="block">Folder structure</label>
                 <div className="space-y-1">
                   <div className="flex items-center">
                     <input
@@ -198,7 +198,7 @@ export function ConverterOptions({ type, options, onChange }: ConverterOptionsPr
             <div className="space-y-2">
               <h4 className="font-medium">Content</h4>
               <div className="space-y-2">
-                <label className="block">Include Elements</label>
+                <label className="block">Include elements</label>
                 <div className="grid grid-cols-3 gap-2">
                   <div className="flex items-center">
                     <input
@@ -240,7 +240,7 @@ export function ConverterOptions({ type, options, onChange }: ConverterOptionsPr
         return (
           <div className="space-y-6">
             <div className="space-y-2">
-              <h4 className="font-medium">Page Settings</h4>
+              <h4 className="font-medium">Page settings</h4>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <label htmlFor="pdf-page-size" className="block">
@@ -276,7 +276,7 @@ export function ConverterOptions({ type, options, onChange }: ConverterOptionsPr
             </div>
 
             <div className="space-y-2">
-              <h4 className="font-medium">Map Style</h4>
+              <h4 className="font-medium">Map style</h4>
               <div className="space-y-2">
                 <label htmlFor="pdf-map-style" className="block">
                   Map Style
@@ -308,7 +308,7 @@ export function ConverterOptions({ type, options, onChange }: ConverterOptionsPr
                       onChange={(e) => onChange("includeElevationProfile", e.target.checked)}
                       className="mr-2"
                     />
-                    <label htmlFor="include-elevation-profile">Elevation Profile</label>
+                    <label htmlFor="include-elevation-profile">Elevation profile</label>
                   </div>
                   <div className="flex items-center">
                     <input
@@ -332,7 +332,7 @@ export function ConverterOptions({ type, options, onChange }: ConverterOptionsPr
             <div className="space-y-2">
               <h4 className="font-medium">Compression</h4>
               <div className="space-y-2">
-                <label htmlFor="kmz-compression">Compression Level</label>
+                <label htmlFor="kmz-compression">Compression level</label>
                 <div className="pt-2">
                   <input
                     type="range"
@@ -345,9 +345,9 @@ export function ConverterOptions({ type, options, onChange }: ConverterOptionsPr
                     className="w-full"
                   />
                   <div className="flex justify-between text-xs text-gray-600 mt-1">
-                    <span>Low (Faster)</span>
+                    <span>Low (faster)</span>
                     <span>Medium</span>
-                    <span>High (Smaller)</span>
+                    <span>High (smaller)</span>
                   </div>
                 </div>
               </div>
@@ -357,7 +357,7 @@ export function ConverterOptions({ type, options, onChange }: ConverterOptionsPr
               <h4 className="font-medium">Appearance</h4>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label htmlFor="kmz-line-color">Line Color</label>
+                  <label htmlFor="kmz-line-color">Line color</label>
                   <div className="flex gap-2">
                     <input
                       id="kmz-line-color"
@@ -374,7 +374,7 @@ export function ConverterOptions({ type, options, onChange }: ConverterOptionsPr
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <label htmlFor="kmz-line-width">Line Width</label>
+                  <label htmlFor="kmz-line-width">Line width</label>
                   <div className="pt-2">
                     <input
                       type="range"
@@ -414,7 +414,7 @@ export function ConverterOptions({ type, options, onChange }: ConverterOptionsPr
                       onChange={(e) => onChange("includeStyles", e.target.checked)}
                       className="mr-2"
                     />
-                    <label htmlFor="kmz-include-styles">Custom Styles</label>
+                    <label htmlFor="kmz-include-styles">Custom styles</label>
                   </div>
                 </div>
               </div>
@@ -427,10 +427,10 @@ export function ConverterOptions({ type, options, onChange }: ConverterOptionsPr
         return (
           <div className="space-y-6">
             <div className="space-y-2">
-              <h4 className="font-medium">Activity Settings</h4>
+              <h4 className="font-medium">Activity settings</h4>
               <div className="space-y-2">
                 <label htmlFor="fit-activity-type" className="block">
-                  Activity Type
+                  Activity type
                 </label>
                 <select
                   id="fit-activity-type"
@@ -449,10 +449,10 @@ export function ConverterOptions({ type, options, onChange }: ConverterOptionsPr
             </div>
 
             <div className="space-y-2">
-              <h4 className="font-medium">Device Settings</h4>
+              <h4 className="font-medium">Device settings</h4>
               <div className="space-y-2">
                 <label htmlFor="fit-device-type" className="block">
-                  Target Device
+                  Target device
                 </label>
                 <select
                   id="fit-device-type"
@@ -463,17 +463,17 @@ export function ConverterOptions({ type, options, onChange }: ConverterOptionsPr
                   <option value="edge">Garmin Edge (Cycling)</option>
                   <option value="forerunner">Garmin Forerunner (Running)</option>
                   <option value="fenix">Garmin Fenix (Multisport)</option>
-                  <option value="other">Other Garmin Device</option>
+                  <option value="other">Other Garmin device</option>
                   <option value="wahoo">Wahoo</option>
-                  <option value="generic">Generic FIT Device</option>
+                  <option value="generic">Generic FIT device</option>
                 </select>
               </div>
             </div>
 
             <div className="space-y-2">
-              <h4 className="font-medium">Data Options</h4>
+              <h4 className="font-medium">Data options</h4>
               <div className="space-y-2">
-                <label className="block">Include Data</label>
+                <label className="block">Include data</label>
                 <div className="grid grid-cols-2 gap-2">
                   <div className="flex items-center">
                     <input
@@ -483,7 +483,7 @@ export function ConverterOptions({ type, options, onChange }: ConverterOptionsPr
                       onChange={(e) => onChange("includeElevation", e.target.checked)}
                       className="mr-2"
                     />
-                    <label htmlFor="fit-include-elevation">Elevation Data</label>
+                    <label htmlFor="fit-include-elevation">Elevation data</label>
                   </div>
                   <div className="flex items-center">
                     <input
@@ -500,7 +500,7 @@ export function ConverterOptions({ type, options, onChange }: ConverterOptionsPr
             </div>
 
             <div className="space-y-2">
-              <h4 className="font-medium">Sport Type</h4>
+              <h4 className="font-medium">Sport type</h4>
               <div className="space-y-2">
                 <label htmlFor="fit-sport-type" className="block">
                   Sport Type
@@ -512,9 +512,9 @@ export function ConverterOptions({ type, options, onChange }: ConverterOptionsPr
                   className="w-full p-2 border"
                 >
                   <option value="cycling">Cycling</option>
-                  <option value="mountain_biking">Mountain Biking</option>
+                  <option value="mountain_biking">Mountain biking</option>
                   <option value="running">Running</option>
-                  <option value="trail_running">Trail Running</option>
+                  <option value="trail_running">Trail running</option>
                   <option value="hiking">Hiking</option>
                   <option value="walking">Walking</option>
                   <option value="swimming">Swimming</option>
@@ -524,9 +524,9 @@ export function ConverterOptions({ type, options, onChange }: ConverterOptionsPr
             </div>
 
             <div className="space-y-2">
-              <h4 className="font-medium">Data Fields</h4>
+              <h4 className="font-medium">Data fields</h4>
               <div className="space-y-2">
-                <label className="block">Data Field Complexity</label>
+                <label className="block">Data field complexity</label>
                 <div className="space-y-1">
                   <div className="flex items-center">
                     <input

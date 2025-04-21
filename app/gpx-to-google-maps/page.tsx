@@ -74,7 +74,7 @@ export default function GpxToGoogleMapsPage() {
       </section>
 
       <section className="py-8 border-t">
-        <h2 className="text-xl mb-4">Alternative Methods: Importing GPX into Google Maps</h2>
+        <h2 className="text-xl mb-4">Alternative methods: Importing GPX into Google Maps</h2>
         <div className="prose dark:prose-invert max-w-none">
           <p>
             For complex routes or when you need more control over how your GPX data is displayed in Google Maps, you can
@@ -203,7 +203,7 @@ function mapSelectedCells() {
           </ol>
 
           <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-md">
-            <h3 className="text-base font-medium mb-2">Pro Tip</h3>
+            <h3 className="text-base font-medium mb-2">Pro tip</h3>
             <p className="text-sm">
               For the best results with complex routes, we recommend Method 1 (importing KML into Google My Maps). This
               method preserves the most detail from your original GPX file and gives you the most options for

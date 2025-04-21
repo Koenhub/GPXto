@@ -467,7 +467,7 @@ export function FileUploadSimple({ initialConversionType = "", isComingSoon = fa
               disabled={!file || !conversionType}
               className="px-4 py-2 bg-black text-white disabled:bg-gray-400"
             >
-              Next: Configure Options
+              Next: Configure options
             </button>
           </div>
         </div>
@@ -529,7 +529,7 @@ export function FileUploadSimple({ initialConversionType = "", isComingSoon = fa
       {currentStep === 4 && convertedFile && (
         <div className="space-y-4">
           <div className="p-4 border">
-            <h3 className="font-medium mb-4">Conversion Complete!</h3>
+            <h3 className="font-medium mb-4">Conversion complete!</h3>
 
             <div className="space-y-2 mb-4">
               <p className="text-sm text-gray-600">
@@ -566,11 +566,11 @@ export function FileUploadSimple({ initialConversionType = "", isComingSoon = fa
             ) : (
               <>
                 <button onClick={handleDownload} className="w-full mb-2 px-4 py-2 bg-black text-white">
-                  Download Again
+                  Download again
                 </button>
                 <p className="text-xs text-center text-gray-600 mb-2">Thank you for your support!</p>
                 <button onClick={handleReset} className="w-full px-4 py-2 border">
-                  Convert Another File
+                  Convert another file
                 </button>
               </>
             )}
@@ -590,7 +590,7 @@ export function FileUploadSimple({ initialConversionType = "", isComingSoon = fa
       {/* Map Preview */}
       {gpxContent && (
         <div className="mt-8">
-          <h2>Map Preview</h2>
+          <h2>Map preview</h2>
           <div className="h-[250px] sm:h-[350px] border">
             <MapPreview gpxContent={gpxContent} />
           </div>

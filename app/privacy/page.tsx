@@ -1,7 +1,7 @@
 import Link from "next/link"
 
 export const metadata = {
-  title: "Privacy Policy - Free converter online - GPXto",
+  title: "Privacy policy - Free converter online - GPXto",
   description:
     "GPXto's privacy policy explains how we protect your data. All conversions happen in your browser, and we never store your GPX files or route data.",
 }
@@ -10,7 +10,7 @@ export default function PrivacyPage() {
   return (
     <div className="max-w-3xl mx-auto">
       <section className="py-8">
-        <h1 className="text-2xl mb-8">Privacy Policy</h1>
+        <h1 className="text-2xl mb-8">Privacy policy</h1>
 
         <div className="prose dark:prose-invert max-w-none space-y-6">
           <p>Last updated: {new Date().toLocaleDateString()}</p>
@@ -22,7 +22,7 @@ export default function PrivacyPage() {
             ensuring that your GPS data remains private.
           </p>
 
-          <h2 className="text-xl mt-8 mb-4">Data Processing in Your Browser</h2>
+          <h2 className="text-xl mt-8 mb-4">Data processing in your browser</h2>
           <p>
             <strong>All file conversions happen in your browser.</strong> When you upload a GPX file or paste a Google
             Maps URL for conversion, all processing happens locally on your device. Your GPX files, route data, and
@@ -36,7 +36,7 @@ export default function PrivacyPage() {
             <li>Your data is not shared with third parties</li>
           </ul>
 
-          <h2 className="text-xl mt-8 mb-4">Website Analytics</h2>
+          <h2 className="text-xl mt-8 mb-4">Website analytics</h2>
           <p>
             We use Ahrefs to collect anonymous usage statistics about our website. This helps us understand how visitors
             use our site so we can improve it.
@@ -56,7 +56,7 @@ export default function PrivacyPage() {
           </ul>
           <p>This information is aggregated and used solely for improving our website and services.</p>
 
-          <h2 className="text-xl mt-8 mb-4">Why We Don't Need a Cookie Banner</h2>
+          <h2 className="text-xl mt-8 mb-4">Why we don't need a cookie banner</h2>
           <p>
             You may have noticed that GPXto doesn't display a cookie consent banner like many other websites. Here's
             why:
@@ -84,7 +84,7 @@ export default function PrivacyPage() {
             track personal data. Since we don't use such cookies, we don't need to display a consent banner.
           </p>
 
-          <h2 className="text-xl mt-8 mb-4">Information We Don't Collect</h2>
+          <h2 className="text-xl mt-8 mb-4">Information we don't collect</h2>
           <p>
             It's important to understand what we <strong>don't</strong> collect:
           </p>
@@ -96,13 +96,13 @@ export default function PrivacyPage() {
             <li>We don't use cookies for advertising or behavioral tracking</li>
           </ul>
 
-          <h2 className="text-xl mt-8 mb-4">Contact Information</h2>
+          <h2 className="text-xl mt-8 mb-4">Contact information</h2>
           <p>
             If you have any questions about our privacy practices, please visit our{" "}
             <Link href="/contact">Contact page</Link> to find our email address and get in touch with us.
           </p>
 
-          <h2 className="text-xl mt-8 mb-4">Changes to This Privacy Policy</h2>
+          <h2 className="text-xl mt-8 mb-4">Changes to this privacy policy</h2>
           <p>
             We may update our privacy policy from time to time. We will notify you of any changes by posting the new
             privacy policy on this page and updating the "Last updated" date at the top.

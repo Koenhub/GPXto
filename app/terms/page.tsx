@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Terms of Service - Free converter online - GPXto",
+  title: "Terms of service - Free converter online - GPXto",
   description:
     "Terms of service for GPXto's free GPX conversion tools. Read about how you can use our website and the rules that apply to our free online services.",
 }
@@ -7,7 +7,7 @@ export const metadata = {
 export default function TermsPage() {
   return (
     <div className="max-w-3xl mx-auto">
-      <h1 className="text-2xl mb-8">Terms of Service</h1>
+      <h1 className="text-2xl mb-8">Terms of service</h1>
 
       <div className="prose dark:prose-invert max-w-none space-y-6">
         <p>Last updated: {new Date().toLocaleDateString()}</p>
@@ -39,7 +39,7 @@ export default function TermsPage() {
           </li>
         </ul>
 
-        <h2 className="text-xl mt-8 mb-4">Your Content</h2>
+        <h2 className="text-xl mt-8 mb-4">Your content</h2>
         <p>
           In these terms and conditions, "Your Content" shall mean any audio, video, text, images or other material you
           choose to display on this website. By displaying Your Content, you grant GPXto a non-exclusive, worldwide,
@@ -47,13 +47,13 @@ export default function TermsPage() {
           all media.
         </p>
 
-        <h2 className="text-xl mt-8 mb-4">No Warranties</h2>
+        <h2 className="text-xl mt-8 mb-4">No warranties</h2>
         <p>
           This website is provided "as is," with all faults, and GPXto makes no express or implied representations or
           warranties, of any kind related to this website or the materials contained on this website.
         </p>
 
-        <h2 className="text-xl mt-8 mb-4">Limitation of Liability</h2>
+        <h2 className="text-xl mt-8 mb-4">Limitation of liability</h2>
         <p>
           In no event shall GPXto, nor any of its officers, directors and employees, be held liable for anything arising
           out of or in any way connected with your use of this website.

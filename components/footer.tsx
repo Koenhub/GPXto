@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 import { FileUp, Map, FileText, ImageIcon, Table, Code, Activity, GitMerge, Layers, Scissors } from "lucide-react"
 
 export function Footer() {
@@ -134,19 +135,19 @@ export function Footer() {
           <Link href="/terms" className="hover:text-primary">
             Terms
           </Link>
-          <Link
-            href="https://ko-fi.com/gpxto"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-primary"
-          >
+          <Link href="https://ko-fi.com/gpxto" target="_blank" rel="noopener noreferrer" className="hover:text-primary">
             Donate
           </Link>
         </div>
-        <p className="text-sm text-muted-foreground mt-2">
-          © {new Date().getFullYear()} GPXto • All processing happens in your browser - your data never leaves your
-          computer
-        </p>
+        <div className="flex items-center gap-2 mt-4">
+          <Link href="/" aria-label="Go to homepage">
+            <Image src="/gpxto-icon.png" alt="GPXto Logo" width={28} height={28} className="rounded-md" />
+          </Link>
+          <p className="text-sm text-muted-foreground">
+            © {new Date().getFullYear()} GPXto • All processing happens in your browser - your data never leaves your
+            computer
+          </p>
+        </div>
         <p className="text-xs text-muted-foreground mt-2">
           Google Maps™ is a registered trademark of Google LLC. We are not affiliated with, endorsed by, or associated
           with Google LLC.

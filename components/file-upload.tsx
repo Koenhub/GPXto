@@ -427,7 +427,7 @@ export function FileUpload() {
                       <>
                         <Button onClick={handleDownload} className="w-full mb-2 flex items-center justify-center gap-2">
                           <Download className="h-4 w-4" />
-                          Download Again
+                          Download again
                         </Button>
                         <p className="text-xs text-center text-muted-foreground mb-2">Thank you for your support!</p>
                         <Button variant="outline" className="w-full" onClick={handleReset}>
