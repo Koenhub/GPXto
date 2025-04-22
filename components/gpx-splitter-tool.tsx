@@ -1028,13 +1028,13 @@ export function GpxSplitterTool() {
                 <p className="text-sm">Support GPXto to download all files as a ZIP:</p>
                 <div className="space-y-2">
                   <a
-                    href="https://ko-fi.com/gpxto/2"
+                    href="https://ko-fi.com/gpxto"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="block w-full"
                     onClick={() => handleDonate("2")}
                   >
-                    <button className="w-full px-4 py-2 bg-black text-white">Donate €2 & Download All</button>
+                    <button className="w-full px-4 py-2 bg-black text-white">Download All & support</button>
                   </a>
                   <button onClick={handleDownloadAll} className="w-full px-4 py-2 text-sm">
                     Download All without donating

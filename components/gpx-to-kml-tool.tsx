@@ -355,13 +355,13 @@ export function GpxToKmlTool() {
                     <p className="text-sm">Support GPXto to download your file:</p>
                     <div className="space-y-2">
                       <a
-                        href="https://ko-fi.com/gpxto/2"
+                        href="https://ko-fi.com/gpxto"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="block w-full"
                         onClick={() => handleDonate("2")}
                       >
-                        <button className="w-full px-4 py-2 bg-black text-white">Donate €2 & Download</button>
+                        <button className="w-full px-4 py-2 bg-black text-white">Download & support</button>
                       </a>
                       <button onClick={handleDownload} className="w-full px-4 py-2 text-sm">
                         Download without donating

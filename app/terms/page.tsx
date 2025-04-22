@@ -53,6 +53,19 @@ export default function TermsPage() {
           warranties, of any kind related to this website or the materials contained on this website.
         </p>
 
+        <h2 className="text-xl mt-8 mb-4">User responsibility</h2>
+        <p>
+          All converted files should always be carefully verified before use. GPXto may contain errors or inaccuracies
+          in the conversion process. It remains your own responsibility which route, road, or turn you take, and whether
+          you do so by vehicle or on foot. GPXto is not responsible for any navigation decisions you make based on
+          converted files.
+        </p>
+        <p>
+          Users should exercise caution and good judgment when using any navigation data. Always follow official traffic
+          rules, signs, and regulations, and be aware of your surroundings. Do not rely solely on converted files for
+          critical navigation decisions, especially in remote or hazardous areas.
+        </p>
+
         <h2 className="text-xl mt-8 mb-4">Limitation of liability</h2>
         <p>
           In no event shall GPXto, nor any of its officers, directors and employees, be held liable for anything arising

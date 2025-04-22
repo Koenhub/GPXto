@@ -154,6 +154,10 @@ export function Footer() {
           Google Maps™ is a registered trademark of Google LLC. We are not affiliated with, endorsed by, or associated
           with Google LLC.
         </p>
+        <p className="text-xs text-muted-foreground mt-2">
+          Always verify converted files carefully. GPXto may contain errors. You are responsible for your own safety and
+          navigation decisions.
+        </p>
       </div>
     </footer>
   )
