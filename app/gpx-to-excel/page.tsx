@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { GpxToExcelTool } from "@/components/gpx-to-excel-tool"
+import { DonationReminder } from "@/components/donation-reminder"
 
 export const metadata: Metadata = {
   title: "Convert GPX to Excel - Free online converter - GPXto",
@@ -12,6 +13,7 @@ export default function GpxToExcelPage() {
   return (
     <div>
       <GpxToExcelTool />
+      <DonationReminder />
     </div>
   )
 }

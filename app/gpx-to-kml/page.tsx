@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { GpxToKmlTool } from "@/components/gpx-to-kml-tool"
+import { DonationReminder } from "@/components/donation-reminder"
 
 export const metadata: Metadata = {
   title: "Convert GPX to KML - Free online converter - GPXto",
@@ -12,6 +13,7 @@ export default function GpxToKmlPage() {
   return (
     <div>
       <GpxToKmlTool />
+      <DonationReminder />
     </div>
   )
 }

@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { GpxSplitterTool } from "@/components/gpx-splitter-tool"
+import { DonationReminder } from "@/components/donation-reminder"
 
 export const metadata: Metadata = {
   title: "GPX splitter - Split GPX files into smaller parts - GPXto",
@@ -104,6 +105,8 @@ export default function GpxSplitPage() {
           </p>
         </div>
       </section>
+
+      <DonationReminder />
     </div>
   )
 }

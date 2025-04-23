@@ -126,6 +126,14 @@ export default function AboutPage() {
           We believe that access to tools for working with open formats like GPX should be free and available to
           everyone, regardless of technical expertise or budget.
         </p>
+        <p>
+          While our tools are free to use, we rely on donations to cover server costs and continue developing new
+          features. If you find our tools helpful, please consider{" "}
+          <a href="https://ko-fi.com/gpxto" target="_blank" rel="noopener noreferrer">
+            supporting us on Ko-fi
+          </a>
+          . Your contributions help us maintain and improve these services for everyone.
+        </p>
       </div>
     </div>
   )

@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { MergeGpxTool } from "@/components/gpx-merge-tool"
+import { DonationReminder } from "@/components/donation-reminder"
 
 export const metadata: Metadata = {
   title: "GPX merge - Merge GPX files online - GPXto",
@@ -77,6 +78,8 @@ export default function GpxMergePage() {
           </p>
         </div>
       </section>
+
+      <DonationReminder />
     </div>
   )
 }
