@@ -77,6 +77,12 @@ export default function AboutPage() {
             </strong>{" "}
             - Convert to Garmin's fitness device format
           </li>
+          <li>
+            <strong>
+              <Link href="/gpx-to-google-maps">GPX to Google Maps</Link>
+            </strong>{" "}
+            - Visualize your GPX tracks on Google Maps
+          </li>
         </ul>
 
         <h2 className="text-xl mt-8 mb-4">Additional tools</h2>
@@ -85,17 +91,16 @@ export default function AboutPage() {
         <ul className="list-disc pl-6 space-y-2">
           <li>
             <strong>
-              <Link href="/merge-gpx">Merge GPX Files</Link>
+              <Link href="/gpx-merge">Merge GPX Files</Link>
             </strong>{" "}
             - Combine multiple GPX files into a single file, perfect for joining tracks from different days or devices
             into one comprehensive route
           </li>
           <li>
             <strong>
-              <Link href="/maps-to-gpx">Maps to GPX</Link>
+              <Link href="/gpx-split">Split GPX Files</Link>
             </strong>{" "}
-            - Convert Google Maps routes to GPX format, allowing you to use routes planned in Google Maps with your GPS
-            device, fitness tracker, or route planning software
+            - Divide a GPX file into multiple segments based on time or distance
           </li>
         </ul>
 

@@ -500,13 +500,56 @@ export function MergeGpxTool() {
           { id: 4, name: "Download" },
         ].map((step) => (
           <div key={step.id} className="mr-3 sm:mr-6 text-center">
-            <div
+            <button
+              onClick={() => {
+                // Allow navigation based on current step
+                if (currentStep === 2) {
+                  // From Configure, allow going to Upload or Merge
+                  if (step.id === 1 || step.id === 3) {
+                    if (step.id === 1) {
+                      handlePreviousStep()
+                    } else if (step.id === 3) {
+                      handleMerge()
+                    }
+                  }
+                } else if (currentStep === 4) {
+                  // From Download, allow going to Configure
+                  if (step.id === 2) {
+                    setCurrentStep(2)
+                  }
+                } else if (currentStep === 1) {
+                  // From Upload, allow going to Configure if we have files
+                  if (step.id === 2 && files.length >= 2) {
+                    handleNextStep()
+                  }
+                }
+              }}
+              disabled={
+                // Disable if it's the current step
+                step.id === currentStep ||
+                // Disable based on current step and available navigation options
+                (currentStep === 1 && step.id !== 2) ||
+                (currentStep === 2 && step.id !== 1 && step.id !== 3) ||
+                currentStep === 3 || // Merge is processing, disable all
+                (currentStep === 4 && step.id !== 2) ||
+                // Disable if trying to go to Configure without enough files
+                (step.id === 2 && currentStep === 1 && files.length < 2)
+              }
               className={`inline-block px-1 sm:px-2 py-1 text-xs sm:text-sm ${
-                currentStep === step.id ? "border-b-2 border-black font-medium" : "text-gray-500"
+                currentStep === step.id
+                  ? "border-b-2 border-black font-medium"
+                  : (
+                        // Make specific steps clickable based on current step
+                        (currentStep === 2 && (step.id === 1 || step.id === 3)) ||
+                          (currentStep === 4 && step.id === 2) ||
+                          (currentStep === 1 && step.id === 2 && files.length >= 2)
+                      )
+                    ? "text-black hover:border-b-2 hover:border-gray-300 cursor-pointer"
+                    : "text-gray-400 cursor-not-allowed"
               }`}
             >
               {step.name}
-            </div>
+            </button>
           </div>
         ))}
       </div>

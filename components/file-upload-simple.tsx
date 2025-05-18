@@ -229,15 +229,15 @@ export function FileUploadSimple({ initialConversionType = "", isComingSoon = fa
         })
       }
 
+      // Always store file data in sessionStorage when moving to next step
+      if (gpxContent) {
+        sessionStorage.setItem("gpxContent", gpxContent)
+        sessionStorage.setItem("gpxFileName", fileName || file?.name || "file.gpx")
+        sessionStorage.setItem("gpxFileSize", (fileSize || file?.size || 0).toString())
+      }
+
       // If we're on the homepage (initialConversionType is empty), navigate to the specific page
       if (!initialConversionType) {
-        // Store file data in sessionStorage before navigating
-        if (gpxContent) {
-          sessionStorage.setItem("gpxContent", gpxContent)
-          sessionStorage.setItem("gpxFileName", fileName || file?.name || "file.gpx")
-          sessionStorage.setItem("gpxFileSize", (fileSize || file?.size || 0).toString())
-        }
-
         if (conversionType === "google-maps") {
           router.push(`/gpx-to-google-maps`)
         } else {
@@ -261,11 +261,33 @@ export function FileUploadSimple({ initialConversionType = "", isComingSoon = fa
       }
 
       handleConvert()
+    } else if (currentStep === 3 && convertedFile) {
+      // If conversion is complete, move to download step
+      setCurrentStep(4)
     }
   }
 
   const handlePreviousStep = () => {
     if (currentStep > 1) {
+      // Make sure we don't lose the file when going back
+      if (currentStep === 2 && !file && gpxContent) {
+        // Try to restore file from sessionStorage if we lost it
+        const storedFileName = sessionStorage.getItem("gpxFileName")
+        const storedFileSize = sessionStorage.getItem("gpxFileSize")
+
+        if (storedFileName && storedFileSize) {
+          // Create a File object from the stored content
+          const blob = new Blob([gpxContent], { type: "application/gpx+xml" })
+          const fileFromStorage = new File([blob], storedFileName, {
+            type: "application/gpx+xml",
+            lastModified: new Date().getTime(),
+          })
+          setFile(fileFromStorage)
+          setFileName(storedFileName)
+          setFileSize(Number.parseInt(storedFileSize, 10))
+        }
+      }
+
       setCurrentStep(currentStep - 1)
       setError(null)
     }
@@ -300,7 +322,9 @@ export function FileUploadSimple({ initialConversionType = "", isComingSoon = fa
       const filename = `${originalName}-${conversionType}-${timestamp}.${conversionType}`
       setConvertedFile(filename)
       setIsConverting(false)
-      setCurrentStep(4) // Move to Download step after conversion is complete
+
+      // Automatically move to Download step after conversion is complete
+      setCurrentStep(4)
 
       // Track when user reaches step 4 (Download)
       trackEvent(ANALYTICS_EVENTS.STEP_REACHED, {
@@ -412,13 +436,58 @@ export function FileUploadSimple({ initialConversionType = "", isComingSoon = fa
           { id: 4, name: "Download" },
         ].map((step) => (
           <div key={step.id} className="mr-3 sm:mr-6 text-center">
-            <div
+            <button
+              onClick={() => {
+                // Allow navigation based on current step
+                if (currentStep === 2) {
+                  // From Configure, allow going to Upload or Convert
+                  if (step.id === 1 || step.id === 3) {
+                    if (step.id === 1) {
+                      handlePreviousStep()
+                    } else if (step.id === 3 && !isComingSoon) {
+                      handleConvert()
+                    }
+                  }
+                } else if (currentStep === 4) {
+                  // From Download, allow going to Configure
+                  if (step.id === 2) {
+                    setCurrentStep(2)
+                  }
+                } else if (currentStep === 1) {
+                  // From Upload, allow going to Configure if we have a file
+                  if (step.id === 2 && file) {
+                    handleNextStep()
+                  }
+                }
+              }}
+              disabled={
+                // Disable if it's the current step
+                step.id === currentStep ||
+                // Disable based on current step and available navigation options
+                (currentStep === 1 && step.id !== 2) ||
+                (currentStep === 2 && step.id !== 1 && step.id !== 3) ||
+                currentStep === 3 || // Convert is processing, disable all
+                (currentStep === 4 && step.id !== 2) ||
+                // Disable if trying to go to Convert from a "coming soon" feature
+                (step.id === 3 && isComingSoon && currentStep === 2) ||
+                // Disable if trying to go to Configure without a file
+                (step.id === 2 && currentStep === 1 && !file)
+              }
               className={`inline-block px-1 sm:px-2 py-1 text-xs sm:text-sm ${
-                currentStep === step.id ? "border-b-2 border-black font-medium" : "text-gray-500"
+                currentStep === step.id
+                  ? "border-b-2 border-black font-medium"
+                  : (
+                        // Make specific steps clickable based on current step
+                        (currentStep === 2 && (step.id === 1 || (step.id === 3 && !isComingSoon))) ||
+                          (currentStep === 4 && step.id === 2) ||
+                          (currentStep === 1 && step.id === 2 && file)
+                      )
+                    ? "text-black hover:border-b-2 hover:border-gray-300 cursor-pointer"
+                    : "text-gray-400 cursor-not-allowed"
               }`}
             >
               {step.name}
-            </div>
+            </button>
           </div>
         ))}
       </div>
@@ -494,14 +563,15 @@ export function FileUploadSimple({ initialConversionType = "", isComingSoon = fa
           )}
 
           <div className="flex space-x-4">
-            <button onClick={handlePreviousStep} className="px-4 py-2 border">
-              Back
+            <button onClick={handlePreviousStep} className="px-4 py-2 border hover:bg-gray-100">
+              Back to Upload
             </button>
             <button
               onClick={handleNextStep}
               className={`px-4 py-2 ${isComingSoon ? "bg-yellow-500" : "bg-black"} text-white`}
+              disabled={isComingSoon}
             >
-              {isComingSoon ? "Coming Soon" : "Convert"}
+              {isComingSoon ? "Coming Soon" : "Convert Now"}
             </button>
           </div>
           {isComingSoon && (
