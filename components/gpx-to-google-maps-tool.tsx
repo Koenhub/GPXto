@@ -685,7 +685,7 @@ export function GpxToGoogleMapsTool() {
         <div className="space-y-6">
           <div>
             <label htmlFor="gpx-file" className="block mb-2">
-              Upload GPX File:
+              Upload GPX file:
             </label>
             <input type="file" id="gpx-file" accept=".gpx" onChange={handleFileChange} className="w-full" />
             {file && (
@@ -700,7 +700,7 @@ export function GpxToGoogleMapsTool() {
               disabled={!file && !gpxContent}
               className="px-4 py-2 bg-black text-white disabled:bg-gray-400"
             >
-              Next: Configure Options
+              Next: Configure options
             </button>
           </div>
         </div>
@@ -710,7 +710,7 @@ export function GpxToGoogleMapsTool() {
       {currentStep === 2 && (
         <div className="space-y-6">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg">Configure Google Maps Options</h3>
+            <h3 className="text-lg">Configure Google Maps options</h3>
             {file && (
               <div className="text-sm text-gray-600">
                 File: {file.name} ({(file.size / 1024).toFixed(2)} KB)
@@ -813,7 +813,7 @@ export function GpxToGoogleMapsTool() {
 
           {/* Content Options */}
           <div className="p-4 border space-y-4">
-            <h4 className="font-medium">Content Options</h4>
+            <h4 className="font-medium">Content options</h4>
             <div>
               <label className="flex items-center space-x-2">
                 <input
@@ -822,7 +822,7 @@ export function GpxToGoogleMapsTool() {
                   onChange={(e) => handleOptionChange("includeTracks", e.target.checked)}
                   className="mr-2"
                 />
-                <span>Include Tracks</span>
+                <span>Include tracks</span>
               </label>
             </div>
             <div>
@@ -833,7 +833,7 @@ export function GpxToGoogleMapsTool() {
                   onChange={(e) => handleOptionChange("includeRoutes", e.target.checked)}
                   className="mr-2"
                 />
-                <span>Include Routes</span>
+                <span>Include routes</span>
               </label>
             </div>
             <div>
@@ -844,14 +844,14 @@ export function GpxToGoogleMapsTool() {
                   onChange={(e) => handleOptionChange("includeWaypoints", e.target.checked)}
                   className="mr-2"
                 />
-                <span>Include Waypoints</span>
+                <span>Include waypoints</span>
               </label>
             </div>
           </div>
 
           {/* Route Simplification */}
           <div className="p-4 border space-y-4 mt-4">
-            <h4 className="font-medium">Route Simplification</h4>
+            <h4 className="font-medium">Route simplification</h4>
             <div className="space-y-2">
               <div className="flex justify-between text-sm">
                 <span>Original: {originalPoints.length} points</span>
@@ -867,8 +867,8 @@ export function GpxToGoogleMapsTool() {
                 className="w-full"
               />
               <div className="flex justify-between text-xs text-gray-500">
-                <span>All Points</span>
-                <span>Fewer Points</span>
+                <span>All points</span>
+                <span>Fewer points</span>
               </div>
               <div className="mt-3">
                 {fitsInSingleLink ? (
@@ -941,7 +941,7 @@ export function GpxToGoogleMapsTool() {
       {currentStep === 4 && googleMapsLink && (
         <div className="space-y-4">
           <div className="p-4 border">
-            <h3 className="font-medium mb-4">Your Google Maps Link is Ready!</h3>
+            <h3 className="font-medium mb-4">Your Google Maps link is ready!</h3>
             <div className="mb-4 p-3 bg-yellow-100 dark:bg-yellow-900/30 border border-yellow-300 dark:border-yellow-800 rounded-md">
               <p className="font-medium text-yellow-700 dark:text-yellow-300">Important: Check your route carefully</p>
               <p className="text-sm text-yellow-600 dark:text-yellow-400 mt-1">
@@ -1032,7 +1032,7 @@ export function GpxToGoogleMapsTool() {
       {/* Map Preview */}
       {gpxContent && (
         <div className="mt-8">
-          <h2>Map Preview</h2>
+          <h2>Map preview</h2>
           <div className="h-[250px] sm:h-[350px] border">
             <MapPreview gpxContent={gpxContent} />
           </div>

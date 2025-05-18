@@ -1080,7 +1080,7 @@ export function GpxSplitterTool() {
                     <button className="w-full px-4 py-2 bg-black text-white">Download All & support</button>
                   </a>
                   <button onClick={handleDownloadAll} className="w-full px-4 py-2 text-sm">
-                    Download All without donating
+                    Download all without giving us support
                   </button>
                 </div>
               </div>

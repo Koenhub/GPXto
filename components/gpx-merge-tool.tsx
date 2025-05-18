@@ -769,7 +769,7 @@ export function MergeGpxTool() {
                     <button className="w-full px-4 py-2 bg-black text-white">Download & support</button>
                   </a>
                   <button onClick={handleDownload} className="w-full px-4 py-2 text-sm">
-                    Download without donating
+                    Download without giving us support
                   </button>
                 </div>
               </div>

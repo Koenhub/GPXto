@@ -407,18 +407,18 @@ export function GpxToKmlTool() {
                         <button className="w-full px-4 py-2 bg-black text-white">Download & support</button>
                       </a>
                       <button onClick={handleDownload} className="w-full px-4 py-2 text-sm">
-                        Download without donating
+                        Download without giving us support
                       </button>
                     </div>
                   </div>
                 ) : (
                   <>
                     <button onClick={handleDownload} className="w-full mb-2 px-4 py-2 bg-black text-white">
-                      Download Again
+                      Download again
                     </button>
                     <p className="text-xs text-center text-gray-600 mb-2">Thank you for your support!</p>
                     <button onClick={handleReset} className="w-full px-4 py-2 border">
-                      Convert Another File
+                      Convert another file
                     </button>
                   </>
                 )}
@@ -438,7 +438,7 @@ export function GpxToKmlTool() {
           {/* Map Preview */}
           {gpxContent && (
             <div className="mt-8">
-              <h2>Map Preview</h2>
+              <h2>Map preview</h2>
               <div className="h-[250px] sm:h-[350px] border">
                 <MapPreview gpxContent={gpxContent} />
               </div>
@@ -460,7 +460,7 @@ export function GpxToKmlTool() {
       </section>
 
       <section className="py-8 border-t">
-        <h2 className="text-xl mb-4">About GPX and KML Files</h2>
+        <h2 className="text-xl mb-4">About GPX and KML files</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div>
             <h3 className="text-lg mb-2">What is a GPX file?</h3>

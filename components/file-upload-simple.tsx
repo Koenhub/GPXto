@@ -629,7 +629,7 @@ export function FileUploadSimple({ initialConversionType = "", isComingSoon = fa
                     <button className="w-full px-4 py-2 bg-black text-white">Donate €2 & Download</button>
                   </a>
                   <button onClick={handleDownload} className="w-full px-4 py-2 text-sm">
-                    Download without donating
+                    Download without supporting
                   </button>
                 </div>
               </div>
