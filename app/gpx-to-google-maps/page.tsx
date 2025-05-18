@@ -6,9 +6,10 @@ import { DonationReminder } from "@/components/donation-reminder"
 
 // First, let's modify the metadata to reflect the updated content
 export const metadata: Metadata = {
-  title: "GPX to Google Maps - Generate a Google Maps link - GPXto",
+  title: "GPX to Google Maps - Open routes directly - Free converter - GPXto",
   description:
-    "Free online tool to convert GPX files to Google Maps links. Learn how to import GPX into Google Maps using CSV, KML, or spreadsheets. Simple to use and completely free.",
+    "Upload a GPX file and instantly generate a free Google Maps URL to view your route. Share your routes with friends and family. Fast, easy, and completely free!
+    ",
   keywords: "gpx to google maps, convert gpx, share routes, google maps link, gps sharing, import gpx to google maps",
 }
 
