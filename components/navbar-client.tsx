@@ -15,6 +15,7 @@ import {
   Activity,
   GitMerge,
   Scissors,
+  Heart,
 } from "lucide-react"
 import { useState, useRef, useEffect } from "react"
 import { Logo } from "./logo"
@@ -409,9 +410,10 @@ export function NavbarClient() {
             href="https://ko-fi.com/gpxto"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sm sm:text-base hover:text-primary transition-colors no-underline"
+            className="text-sm sm:text-base hover:text-primary transition-colors no-underline flex items-center gap-1"
           >
             Donate
+            <Heart className="h-4 w-4 fill-red-500 text-red-500" />
           </a>
           <ThemeToggle />
         </div>

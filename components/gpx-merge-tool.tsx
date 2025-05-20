@@ -537,15 +537,15 @@ export function MergeGpxTool() {
               }
               className={`inline-block px-1 sm:px-2 py-1 text-xs sm:text-sm ${
                 currentStep === step.id
-                  ? "border-b-2 border-black font-medium"
+                  ? "border-b-2 border-black dark:border-white font-medium dark:text-white"
                   : (
                         // Make specific steps clickable based on current step
                         (currentStep === 2 && (step.id === 1 || step.id === 3)) ||
                           (currentStep === 4 && step.id === 2) ||
                           (currentStep === 1 && step.id === 2 && files.length >= 2)
                       )
-                    ? "text-black hover:border-b-2 hover:border-gray-300 cursor-pointer"
-                    : "text-gray-400 cursor-not-allowed"
+                    ? "text-black dark:text-white hover:border-b-2 hover:border-gray-300 dark:hover:border-gray-500 cursor-pointer"
+                    : "text-gray-400 dark:text-gray-500 cursor-not-allowed"
               }`}
             >
               {step.name}
