@@ -489,7 +489,7 @@ export function GpxToCsvTool() {
                     <p className="text-sm">Support GPXto to download your file:</p>
                     <div className="space-y-2">
                       <a
-                        href="https://ko-fi.com/gpxto"
+                        href="https://ko-fi.com/gpxto/tip"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="block w-full"
@@ -498,7 +498,7 @@ export function GpxToCsvTool() {
                         <button className="w-full px-4 py-2 bg-black text-white">Download & support</button>
                       </a>
                       <button onClick={handleDownload} className="w-full px-4 py-2 text-sm">
-                        Download without giving us support
+                        Download without donating
                       </button>
                     </div>
                   </div>

@@ -398,7 +398,7 @@ export function GpxToKmlTool() {
                     <p className="text-sm">Support GPXto to download your file:</p>
                     <div className="space-y-2">
                       <a
-                        href="https://ko-fi.com/gpxto"
+                        href="https://ko-fi.com/gpxto/tip"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="block w-full"
@@ -407,18 +407,18 @@ export function GpxToKmlTool() {
                         <button className="w-full px-4 py-2 bg-black text-white">Download & support</button>
                       </a>
                       <button onClick={handleDownload} className="w-full px-4 py-2 text-sm">
-                        Download without giving us support
+                        Download without donating
                       </button>
                     </div>
                   </div>
                 ) : (
                   <>
                     <button onClick={handleDownload} className="w-full mb-2 px-4 py-2 bg-black text-white">
-                      Download again
+                      Download Again
                     </button>
                     <p className="text-xs text-center text-gray-600 mb-2">Thank you for your support!</p>
                     <button onClick={handleReset} className="w-full px-4 py-2 border">
-                      Convert another file
+                      Convert Another File
                     </button>
                   </>
                 )}
@@ -438,7 +438,7 @@ export function GpxToKmlTool() {
           {/* Map Preview */}
           {gpxContent && (
             <div className="mt-8">
-              <h2>Map preview</h2>
+              <h2>Map Preview</h2>
               <div className="h-[250px] sm:h-[350px] border">
                 <MapPreview gpxContent={gpxContent} />
               </div>
@@ -460,7 +460,7 @@ export function GpxToKmlTool() {
       </section>
 
       <section className="py-8 border-t">
-        <h2 className="text-xl mb-4">About GPX and KML files</h2>
+        <h2 className="text-xl mb-4">About GPX and KML Files</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div>
             <h3 className="text-lg mb-2">What is a GPX file?</h3>
