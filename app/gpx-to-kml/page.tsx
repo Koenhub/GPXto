@@ -5,7 +5,7 @@ import { DonationReminder } from "@/components/donation-reminder"
 export const metadata: Metadata = {
   title: "Convert GPX to KML - Free online converter - GPXto",
   description:
-    "Convert your GPX files to KML format for use with Google Earth and Google Maps. Free online tool with no registration required.",
+    "Convert GPX to KML free, directly in your browser. Our free online converter preserves tracks, routes, waypoints, and elevation data. It's fast and easy to use.",
   keywords: "gpx to kml, convert gpx, kml converter, google earth, google maps, tracks, waypoints, routes",
 }
 
