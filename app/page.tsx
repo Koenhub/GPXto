@@ -158,7 +158,7 @@ export default function Home() {
       </section>
 
       <section className="py-6 mt-12 border-t">
-        <h2>Features</h2>
+        <h2>Why choose GPXto?</h2>
         <ul className="list-disc pl-6 space-y-2 mt-4">
           <li>Free to use with no registration required</li>
           <li>All processing happens in your browser - your data never leaves your computer</li>

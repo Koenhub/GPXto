@@ -53,7 +53,7 @@ export function ConversionPage({
 
       <section className="py-8 border-t">
         <h2 className="text-xl mb-4">
-          About {from} and {to} Files
+          About {from} and {to} files
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div>

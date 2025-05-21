@@ -1111,7 +1111,7 @@ export function GpxSplitterTool() {
       {/* Map Preview */}
       {(gpxContent || (splitResults.length > 0 && previewIndex >= 0)) && (
         <div className="mt-8">
-          <h2>Map Preview</h2>
+          <h2>Map preview</h2>
           <div className="h-[250px] sm:h-[350px] border">
             <MapPreview gpxContent={splitResults.length > 0 ? splitResults[previewIndex].content : gpxContent} />
           </div>
