@@ -489,7 +489,7 @@ export function GpxToCsvTool() {
                     <p className="text-sm">Support GPXto to download your file:</p>
                     <div className="space-y-2">
                       <a
-                        href="https://ko-fi.com/gpxto/tip"
+                        href="https://ko-fi.com/gpxto?utm_source=website&utm_medium=tool&utm_campaign=to_csv"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="block w-full"

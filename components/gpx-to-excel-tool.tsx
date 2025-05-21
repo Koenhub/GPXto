@@ -536,11 +536,11 @@ export function GpxToExcelTool() {
                 ) : (
                   <>
                     <button onClick={handleDownload} className="w-full mb-2 px-4 py-2 bg-black text-white">
-                      Download Again
+                      Download again
                     </button>
                     <p className="text-xs text-center text-gray-600 mb-2">Thank you for your support!</p>
                     <button onClick={handleReset} className="w-full px-4 py-2 border">
-                      Convert Another File
+                      Convert another file
                     </button>
                   </>
                 )}
@@ -560,7 +560,7 @@ export function GpxToExcelTool() {
           {/* Map Preview */}
           {gpxContent && (
             <div className="mt-8">
-              <h2>Map Preview</h2>
+              <h2>Map preview</h2>
               <div className="h-[250px] sm:h-[350px] border">
                 <MapPreview gpxContent={gpxContent} />
               </div>
@@ -584,7 +584,7 @@ export function GpxToExcelTool() {
       </section>
 
       <section className="py-8 border-t">
-        <h2 className="text-xl mb-4">About GPX and Excel Files</h2>
+        <h2 className="text-xl mb-4">About GPX and excel files</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div>
             <h3 className="text-lg mb-2">What is a GPX file?</h3>
@@ -606,12 +606,12 @@ export function GpxToExcelTool() {
       </section>
 
       <section className="py-8 border-t">
-        <h2 className="text-xl mb-4">Using Excel Files</h2>
+        <h2 className="text-xl mb-4">Using Excel files</h2>
         <div className="prose dark:prose-invert max-w-none">
           <p>Once you've converted your GPX file to Excel format, you can use it in various ways:</p>
           <ul>
             <li>
-              <strong>Data Analysis:</strong> Use Excel's powerful functions and formulas to analyze your route data,
+              <strong>Data analysis:</strong> Use Excel's powerful functions and formulas to analyze your route data,
               calculate statistics like average speed, elevation gain, and more.
             </li>
             <li>
@@ -619,11 +619,11 @@ export function GpxToExcelTool() {
               profiles, speed over time, or distance traveled.
             </li>
             <li>
-              <strong>Data Cleaning:</strong> Clean and filter your GPS data to remove outliers or errors before further
+              <strong>Data cleaning:</strong> Clean and filter your GPS data to remove outliers or errors before further
               processing.
             </li>
             <li>
-              <strong>Custom Calculations:</strong> Add your own custom calculations and formulas to derive new insights
+              <strong>Custom calculations:</strong> Add your own custom calculations and formulas to derive new insights
               from your GPS data.
             </li>
             <li>

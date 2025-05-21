@@ -135,7 +135,7 @@ export function Footer() {
           <Link href="/terms" className="hover:text-primary">
             Terms
           </Link>
-          <Link href="https://ko-fi.com/gpxto" target="_blank" rel="noopener noreferrer" className="hover:text-primary">
+          <Link href="https://ko-fi.com/gpxto?utm_source=website&utm_medium=footer&utm_campaign=menu" target="_blank" rel="noopener noreferrer" className="hover:text-primary">
             Donate
           </Link>
         </div>

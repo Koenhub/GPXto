@@ -760,7 +760,7 @@ export function MergeGpxTool() {
                 <p className="text-sm">Support GPXto to download your file:</p>
                 <div className="space-y-2">
                   <a
-                    href="https://ko-fi.com/gpxto/tip"
+                    href="https://buymeacoffee.com/koen"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="block w-full"

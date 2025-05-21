@@ -1071,27 +1071,27 @@ export function GpxSplitterTool() {
                 <p className="text-sm">Support GPXto to download all files as a ZIP:</p>
                 <div className="space-y-2">
                   <a
-                    href="https://ko-fi.com/gpxto/tip"
+                    href="https://buymeacoffee.com/koen"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="block w-full"
                     onClick={() => handleDonate("2")}
                   >
-                    <button className="w-full px-4 py-2 bg-black text-white">Download All & support</button>
+                    <button className="w-full px-4 py-2 bg-black text-white">Download all & support</button>
                   </a>
                   <button onClick={handleDownloadAll} className="w-full px-4 py-2 text-sm">
-                    Download All without donating
+                    Download all without donating
                   </button>
                 </div>
               </div>
             ) : (
               <>
                 <button onClick={handleDownloadAll} className="w-full mb-2 px-4 py-2 bg-black text-white">
-                  Download All Again
+                  Download all again
                 </button>
                 <p className="text-xs text-center text-gray-600 mb-2">Thank you for your support!</p>
                 <button onClick={handleReset} className="w-full px-4 py-2 border">
-                  Split Another File
+                  Split another file
                 </button>
               </>
             )}

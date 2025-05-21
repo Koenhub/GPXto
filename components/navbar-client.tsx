@@ -203,7 +203,7 @@ export function NavbarClient() {
               >
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <h3 className="font-medium text-sm mb-2 text-gray-400">Map Formats</h3>
+                    <h3 className="font-medium text-sm mb-2 text-gray-400">Map formats</h3>
                     <ul className="space-y-1">
                       <li>
                         <Link
@@ -309,7 +309,7 @@ export function NavbarClient() {
                   </div>
 
                   <div>
-                    <h3 className="font-medium text-sm mb-2 text-gray-400">Document Formats</h3>
+                    <h3 className="font-medium text-sm mb-2 text-gray-400">Document formats</h3>
                     <ul className="space-y-1">
                       <li>
                         <Link
@@ -345,7 +345,7 @@ export function NavbarClient() {
                       </li>
                     </ul>
 
-                    <h3 className="font-medium text-sm mt-4 mb-2 text-gray-400">Data Formats</h3>
+                    <h3 className="font-medium text-sm mt-4 mb-2 text-gray-400">Data formats</h3>
                     <ul className="space-y-1">
                       <li>
                         <Link
@@ -407,7 +407,7 @@ export function NavbarClient() {
           </div>
 
           <a
-            href="https://ko-fi.com/gpxto"
+            href="https://ko-fi.com/gpxto?utm_source=website&utm_medium=header&utm_campaign=menu"
             target="_blank"
             rel="noopener noreferrer"
             className="text-sm sm:text-base hover:text-primary transition-colors no-underline flex items-center gap-1"

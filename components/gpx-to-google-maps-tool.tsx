@@ -1005,7 +1005,7 @@ export function GpxToGoogleMapsTool() {
                 <p className="text-sm">Support GPXto to keep our tools free:</p>
                 <div>
                   <a
-                    href="https://ko-fi.com/gpxto/tip"
+                    href="https://ko-fi.com/gpxto?utm_source=website&utm_medium=tool&utm_campaign=to_gMaps"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="block w-full"
