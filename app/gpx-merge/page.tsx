@@ -3,9 +3,9 @@ import { MergeGpxTool } from "@/components/gpx-merge-tool"
 import { DonationReminder } from "@/components/donation-reminder"
 
 export const metadata: Metadata = {
-  title: "GPX merge - Merge GPX files online - GPXto",
+  title: "GPX merge - Merge GPX files online - Combine GPX files - GPXto",
   description:
-    "Free online tool to combine multiple GPX files into one. Join tracks from different days or devices into a single route. Easy to use and completely free.",
+    "Free online GPX merge tool to combine multiple GPX files into one. Preview the merged route on the interactive map. Easy to use and completely free.",
   keywords: "gpx merge, combine gpx, join gpx tracks, gpx merger, multiple gpx files",
 }
 
