@@ -11,7 +11,7 @@ export function Footer() {
         <div className="mb-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-6">
             <div className="space-y-3">
-              <h4 className="font-medium text-sm text-muted-foreground uppercase tracking-wide">Map Formats</h4>
+              <h4 className="font-medium text-sm text-muted-foreground uppercase tracking-wide">Map formats</h4>
               <ul className="space-y-4">
                 <li>
                   <Link href="/gpx-to-kml" className="flex items-center gap-2 hover:text-primary no-underline">
@@ -47,7 +47,7 @@ export function Footer() {
                 </li>
               </ul>
 
-              <h4 className="font-medium text-sm text-muted-foreground uppercase tracking-wide mt-6">Utility Tools</h4>
+              <h4 className="font-medium text-sm text-muted-foreground uppercase tracking-wide mt-6">Utility tools</h4>
               <ul className="space-y-4">
                 <li>
                   <Link href="/gpx-merge" className="flex items-center gap-2 hover:text-primary no-underline">
@@ -68,7 +68,7 @@ export function Footer() {
             </div>
 
             <div className="space-y-3">
-              <h4 className="font-medium text-sm text-muted-foreground uppercase tracking-wide">Document Formats</h4>
+              <h4 className="font-medium text-sm text-muted-foreground uppercase tracking-wide">Document formats</h4>
               <ul className="space-y-4">
                 <li>
                   <Link href="/gpx-to-pdf" className="flex items-center gap-2 hover:text-primary no-underline">
@@ -91,7 +91,7 @@ export function Footer() {
               </ul>
 
               <h4 className="font-medium text-sm text-muted-foreground uppercase tracking-wide mt-6">
-                Data & Device Formats
+                Data & device formats
               </h4>
               <ul className="space-y-4">
                 <li>
@@ -130,7 +130,7 @@ export function Footer() {
             Contact
           </Link>
           <Link href="/privacy" className="hover:text-primary">
-            Privacy Policy
+            Privacy policy
           </Link>
           <Link href="/terms" className="hover:text-primary">
             Terms
