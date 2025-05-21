@@ -1,7 +1,7 @@
 import Link from "next/link"
 
 export const metadata = {
-  title: "About GPXto - Free converter online - GPXto",
+  title: "About GPXto - Free online GPX converters - GPXto",
   description:
     "Learn about GPXto's free online tools for converting GPX files. We offer multiple conversion formats and tools, all free to use with no registration.",
 }
@@ -91,14 +91,14 @@ export default function AboutPage() {
         <ul className="list-disc pl-6 space-y-2">
           <li>
             <strong>
-              <Link href="/merge-gpx">Merge GPX Files</Link>
+              <Link href="/merge-gpx">Merge GPX files</Link>
             </strong>{" "}
             - Combine multiple GPX files into a single file, perfect for joining tracks from different days or devices
             into one comprehensive route
           </li>
           <li>
             <strong>
-              <Link href="/gpx-split">Split GPX Files</Link>
+              <Link href="/gpx-split">Split GPX files</Link>
             </strong>{" "}
             - Divide a GPX file into multiple segments based on distance, points, or stages
           </li>
@@ -134,7 +134,7 @@ export default function AboutPage() {
         <p>
           While our tools are free to use, we rely on donations to cover server costs and continue developing new
           features. If you find our tools helpful, please consider{" "}
-          <a href="https://ko-fi.com/gpxto" target="_blank" rel="noopener noreferrer">
+          <a href="https://ko-fi.com/gpxto?utm_source=website&utm_medium=page&utm_campaign=about" target="_blank" rel="noopener noreferrer">
             supporting us on Ko-fi
           </a>
           . Your contributions help us maintain and improve these services for everyone.
