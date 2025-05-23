@@ -1,6 +1,5 @@
 import type { Metadata } from "next"
 import { GpxToGoogleMapsTool } from "@/components/gpx-to-google-maps-tool"
-import { DonationReminder } from "@/components/donation-reminder"
 
 // Update the page to include information about URL length limitations and add a guide for manual imports
 
@@ -238,8 +237,6 @@ function mapSelectedCells() {
           </ul>
         </div>
       </section>
-
-      <DonationReminder />
     </div>
   )
 }

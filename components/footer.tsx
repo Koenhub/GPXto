@@ -1,6 +1,7 @@
 import Link from "next/link"
 import Image from "next/image"
 import { FileUp, Map, FileText, ImageIcon, Table, Code, Activity, GitMerge, Layers, Scissors } from "lucide-react"
+import { DonationReminder } from "@/components/donation-reminder"
 
 export function Footer() {
   return (
@@ -119,6 +120,8 @@ export function Footer() {
             </div>
           </div>
         </div>
+        
+        <DonationReminder />
       </section>
 
       <div className="py-6 border-t">

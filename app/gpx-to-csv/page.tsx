@@ -1,6 +1,5 @@
 import type { Metadata } from "next"
 import { GpxToCsvTool } from "@/components/gpx-to-csv-tool"
-import { DonationReminder } from "@/components/donation-reminder"
 
 export const metadata: Metadata = {
   title: "Convert GPX to CSV - Free online converter - GPXto",
@@ -13,7 +12,6 @@ export default function GpxToCsvPage() {
   return (
     <div>
       <GpxToCsvTool />
-      <DonationReminder />
     </div>
   )
 }
