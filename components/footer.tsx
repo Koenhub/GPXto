@@ -1,6 +1,6 @@
 import Link from "next/link"
 import Image from "next/image"
-import { FileUp, Map, FileText, ImageIcon, Table, Code, Activity, GitMerge, Layers, Scissors } from "lucide-react"
+import { FileUp, Map, FileText, ImageIcon, Table, Code, Activity, GitMerge, Layers, Scissors, Heart } from "lucide-react"
 import { DonationReminder } from "@/components/donation-reminder"
 
 export function Footer() {
@@ -126,6 +126,10 @@ export function Footer() {
 
       <div className="py-6 border-t">
         <div className="flex flex-wrap gap-x-6 gap-y-2 mb-4">
+          <Link href="https://ko-fi.com/gpxto?utm_source=website&utm_medium=footer&utm_campaign=menu" target="_blank" rel="noopener noreferrer" className="hover:text-primary flex items-center gap-1">
+            Donate
+            <Heart className="h-4 w-4 fill-red-500 text-red-500" /> 
+          </Link>          
           <Link href="/about" className="hover:text-primary">
             About
           </Link>
@@ -137,9 +141,6 @@ export function Footer() {
           </Link>
           <Link href="/terms" className="hover:text-primary">
             Terms
-          </Link>
-          <Link href="https://ko-fi.com/gpxto?utm_source=website&utm_medium=footer&utm_campaign=menu" target="_blank" rel="noopener noreferrer" className="hover:text-primary">
-            Donate
           </Link>
         </div>
         <div className="flex items-center gap-2 mt-4">

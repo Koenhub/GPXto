@@ -115,7 +115,7 @@ export default function Home() {
       </section>
 
       <section className="py-6 mt-12 border-t">
-        <h2>Additional GPX Tools</h2>
+        <h2>Additional GPX tools</h2>
 
         <div className="space-y-8 mt-6">
           <div>

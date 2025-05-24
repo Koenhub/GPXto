@@ -499,7 +499,7 @@ export function FileUploadSimple({ initialConversionType = "", isComingSoon = fa
         <div className="space-y-6">
           <div>
             <label htmlFor="file-upload" className="block mb-2">
-              Upload GPX File:
+              Upload GPX file:
             </label>
             <input type="file" id="file-upload" accept=".gpx" onChange={handleFileChange} className="w-full" />
             {(file || (fileName && fileSize > 0)) && (
@@ -564,7 +564,7 @@ export function FileUploadSimple({ initialConversionType = "", isComingSoon = fa
 
           <div className="flex space-x-4">
             <button onClick={handlePreviousStep} className="px-4 py-2 border hover:bg-gray-100">
-              Back to Upload
+              Back to upload
             </button>
             <button
               onClick={handleNextStep}
@@ -620,13 +620,13 @@ export function FileUploadSimple({ initialConversionType = "", isComingSoon = fa
                 <p className="text-sm">Support GPXto to download your file:</p>
                 <div className="space-y-2">
                   <a
-                    href="https://ko-fi.com/gpxto/2"
+                    href="https://ko-fi.com/gpxto"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="block w-full"
                     onClick={() => handleDonate("2")}
                   >
-                    <button className="w-full px-4 py-2 bg-black text-white">Donate €2 & Download</button>
+                    <button className="w-full px-4 py-2 bg-black text-white">Download & support</button>
                   </a>
                   <button onClick={handleDownload} className="w-full px-4 py-2 text-sm">
                     Download without donating

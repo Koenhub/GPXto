@@ -14,7 +14,7 @@ export function DonationReminder() {
         rel="noopener noreferrer"
         className="inline-block px-4 py-2 bg-blue-600 hover:bg-blue-700 text-gray-200 hover:text-white rounded-md transition-colors"
       >
-        Support us here
+        Support us
       </Link>
     </div>
   )

@@ -1,7 +1,6 @@
 "use client"
 
 import { FileUploadSimple } from "@/components/file-upload-simple"
-import { DonationReminder } from "@/components/donation-reminder"
 
 interface ConversionPageProps {
   from: string
@@ -87,8 +86,6 @@ export function ConversionPage({
           </div>
         </div>
       </section>
-
-      <DonationReminder />
     </div>
   )
 }
