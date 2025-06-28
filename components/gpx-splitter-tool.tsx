@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { MapPreview } from "./map-preview"
 import { Route, Ruler, AlertCircle } from "lucide-react"
 import { trackEvent, ANALYTICS_EVENTS } from "@/utils/analytics"
@@ -29,6 +29,88 @@ export function GpxSplitterTool() {
   const [splitResults, setSplitResults] = useState<Array<{ name: string; content: string }>>([])
   const [hasDonated, setHasDonated] = useState(false)
   const [previewIndex, setPreviewIndex] = useState(0)
+  const [routeStats, setRouteStats] = useState<{
+    totalDistance: number
+    totalPoints: number
+    estimatedSegments: number
+  } | null>(null)
+
+  const calculateRouteStats = (gpxContent: string) => {
+    try {
+      const parser = new DOMParser()
+      const gpx = parser.parseFromString(gpxContent, "text/xml")
+
+      if (!gpx.querySelector("gpx")) {
+        return null
+      }
+
+      const tracks = gpx.querySelectorAll("trk")
+      let totalDistance = 0
+      let totalPoints = 0
+
+      tracks.forEach((track) => {
+        const segments = track.querySelectorAll("trkseg")
+
+        segments.forEach((segment) => {
+          const points = Array.from(segment.querySelectorAll("trkpt"))
+          totalPoints += points.length
+
+          // Calculate distance for this segment
+          for (let i = 1; i < points.length; i++) {
+            const prevPoint = points[i - 1]
+            const currentPoint = points[i]
+
+            const lat1 = Number.parseFloat(prevPoint.getAttribute("lat") || "0")
+            const lon1 = Number.parseFloat(prevPoint.getAttribute("lon") || "0")
+            const lat2 = Number.parseFloat(currentPoint.getAttribute("lat") || "0")
+            const lon2 = Number.parseFloat(currentPoint.getAttribute("lon") || "0")
+
+            totalDistance += calculateDistance(lat1, lon1, lat2, lon2)
+          }
+        })
+      })
+
+      // Calculate estimated segments based on current split method
+      let estimatedSegments = 1
+
+      if (splitMethod === "distance") {
+        let distanceInMeters = splitOptions.distance.distanceValue
+        if (splitOptions.distance.distanceUnit === "km") {
+          distanceInMeters *= 1000
+        } else if (splitOptions.distance.distanceUnit === "mi") {
+          distanceInMeters *= 1609.34
+        }
+        estimatedSegments = Math.ceil(totalDistance / distanceInMeters)
+      } else if (splitMethod === "points") {
+        estimatedSegments = Math.ceil(totalPoints / splitOptions.points.pointsCount)
+      } else if (splitMethod === "stages") {
+        estimatedSegments = splitOptions.stages.stagesCount
+      }
+
+      return {
+        totalDistance,
+        totalPoints,
+        estimatedSegments,
+      }
+    } catch (err) {
+      console.error("Error calculating route stats:", err)
+      return null
+    }
+  }
+
+  useEffect(() => {
+    if (gpxContent) {
+      const stats = calculateRouteStats(gpxContent)
+      setRouteStats(stats)
+    }
+  }, [gpxContent, splitMethod, splitOptions])
+
+  const formatDistance = (meters: number) => {
+    if (meters >= 1000) {
+      return `${(meters / 1000).toFixed(1)} km`
+    }
+    return `${Math.round(meters)} m`
+  }
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0]
@@ -762,6 +844,7 @@ export function GpxSplitterTool() {
     setSplitResults([])
     setHasDonated(false)
     setPreviewIndex(0)
+    setRouteStats(null)
   }
 
   return (
@@ -841,7 +924,7 @@ export function GpxSplitterTool() {
         <div className="space-y-6">
           <div>
             <label htmlFor="gpx-file" className="block mb-2">
-              Upload GPX File:
+              Upload GPX file:
             </label>
             <input type="file" id="gpx-file" accept=".gpx" onChange={handleFileChange} className="w-full" />
             {file && (
@@ -857,7 +940,7 @@ export function GpxSplitterTool() {
               disabled={!file}
               className="px-4 py-2 bg-black text-white disabled:bg-gray-400"
             >
-              Next: Configure Split Options
+              Next: Configure split options
             </button>
           </div>
         </div>
@@ -867,7 +950,7 @@ export function GpxSplitterTool() {
       {currentStep === 2 && (
         <div className="space-y-6">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg">Configure Split Options</h3>
+            <h3 className="text-lg">Configure split options</h3>
             {file && (
               <div className="text-sm text-gray-600">
                 File: {file.name} ({(file.size / 1024).toFixed(2)} KB)
@@ -875,8 +958,60 @@ export function GpxSplitterTool() {
             )}
           </div>
 
+          {/* Route Statistics */}
+          {routeStats && (
+            <div className="p-4 bg-blue-50 border border-blue-200 rounded-md">
+              <h4 className="font-medium text-blue-900 mb-2">Route information</h4>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
+                <div>
+                  <span className="text-blue-700 font-medium">Total distance:</span>
+                  <br />
+                  <span className="text-blue-900">{formatDistance(routeStats.totalDistance)}</span>
+                </div>
+                <div>
+                  <span className="text-blue-700 font-medium">Total points:</span>
+                  <br />
+                  <span className="text-blue-900">{routeStats.totalPoints.toLocaleString()}</span>
+                </div>
+                <div>
+                  <span className="text-blue-700 font-medium">Estimated files:</span>
+                  <br />
+                  <span className="text-blue-900">{routeStats.estimatedSegments}</span>
+                </div>
+              </div>
+
+              {/* Split method explanation */}
+              <div className="mt-3 pt-3 border-t border-blue-200">
+                <p className="text-sm text-blue-800">
+                  {splitMethod === "distance" && (
+                    <>
+                      With your current settings, each file will contain approximately{" "}
+                      <strong>
+                        {splitOptions.distance.distanceValue} {splitOptions.distance.distanceUnit}
+                      </strong>{" "}
+                      of the route.
+                    </>
+                  )}
+                  {splitMethod === "points" && (
+                    <>
+                      With your current settings, each file will contain at most{" "}
+                      <strong>{splitOptions.points.pointsCount} points</strong>.
+                    </>
+                  )}
+                  {splitMethod === "stages" && (
+                    <>
+                      With your current settings, the route will be divided into{" "}
+                      <strong>{splitOptions.stages.stagesCount} equal stages</strong>, each containing approximately{" "}
+                      <strong>{Math.round(routeStats.totalPoints / splitOptions.stages.stagesCount)} points</strong>.
+                    </>
+                  )}
+                </p>
+              </div>
+            </div>
+          )}
+
           <div className="p-4 border space-y-4">
-            <h4 className="font-medium">Split Method</h4>
+            <h4 className="font-medium">Split method</h4>
             <div className="space-y-2">
               <label htmlFor="split-method" className="block">
                 Choose how to split your GPX file:
@@ -887,9 +1022,9 @@ export function GpxSplitterTool() {
                 onChange={handleSplitMethodChange}
                 className="w-full p-2 border"
               >
-                <option value="distance">By Distance</option>
-                <option value="points">By Number of Points</option>
-                <option value="stages">By Number of Stages</option>
+                <option value="distance">By distance</option>
+                <option value="points">By number of points</option>
+                <option value="stages">By number of stages</option>
               </select>
             </div>
           </div>
@@ -899,7 +1034,7 @@ export function GpxSplitterTool() {
             <div className="p-4 border space-y-4">
               <div className="flex items-center gap-2">
                 <Ruler className="h-5 w-5 text-gray-500" />
-                <h4 className="font-medium">Distance Options</h4>
+                <h4 className="font-medium">Distance options</h4>
               </div>
 
               <div className="space-y-2">
@@ -935,7 +1070,7 @@ export function GpxSplitterTool() {
             <div className="p-4 border space-y-4">
               <div className="flex items-center gap-2">
                 <Route className="h-5 w-5 text-gray-500" />
-                <h4 className="font-medium">Points Options</h4>
+                <h4 className="font-medium">Points options</h4>
               </div>
 
               <div className="space-y-2">
@@ -960,7 +1095,7 @@ export function GpxSplitterTool() {
             <div className="p-4 border space-y-4">
               <div className="flex items-center gap-2">
                 <Route className="h-5 w-5 text-gray-500" />
-                <h4 className="font-medium">Stages Options</h4>
+                <h4 className="font-medium">Stages options</h4>
               </div>
 
               <div className="space-y-2">
@@ -1009,7 +1144,7 @@ export function GpxSplitterTool() {
       {currentStep === 4 && splitResults.length > 0 && (
         <div className="space-y-4">
           <div className="p-4 border">
-            <h3 className="font-medium mb-4">Split Complete!</h3>
+            <h3 className="font-medium mb-4">Split complete!</h3>
 
             <div className="space-y-2 mb-4">
               <p className="text-sm text-gray-600">
@@ -1025,7 +1160,7 @@ export function GpxSplitterTool() {
                       scope="col"
                       className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                     >
-                      File Name
+                      File name
                     </th>
                     <th
                       scope="col"
@@ -1067,20 +1202,31 @@ export function GpxSplitterTool() {
             </div>
 
             {!hasDonated ? (
-              <div className="space-y-3">
-                <p className="text-sm">Support GPXto to download all files as a ZIP:</p>
-                <div className="space-y-2">
+              <div className="p-4 bg-gray-50 border border-gray-200 rounded-md space-y-4">
+                <div className="text-center">
+                  <h4 className="font-semibold text-gray-900 mb-2">Support GPXto</h4>
+                  <p className="text-sm text-gray-700">
+                    The tool is free to use, but it does cost money to maintain. If you find it useful, please consider
+                    supporting the site. Thanks for your help!
+                  </p>
+                </div>
+                <div className="flex gap-2">
                   <a
-                    href="https://buymeacoffee.com/koen?utm_source=website&utm_medium=tool&utm_campaign=splitter"
+                    href="https://ko-fi.com/gpxto?utm_source=website&utm_medium=tool&utm_campaign=splitter"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="block w-full"
+                    className="flex-[2]"
                     onClick={() => handleDonate("2")}
                   >
-                    <button className="w-full px-4 py-2 bg-black text-white">Download all & support</button>
+                    <button className="w-full px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                      Help keep the website free
+                    </button>
                   </a>
-                  <button onClick={handleDownloadAll} className="w-full px-4 py-2 text-sm">
-                    Download all without donating
+                  <button
+                    onClick={handleDownloadAll}
+                    className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded hover:bg-gray-50"
+                  >
+                    Download all files
                   </button>
                 </div>
               </div>

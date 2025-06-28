@@ -1,14 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  async redirects() {
-    return [
-      {
-        source: '/merge-gpx',
-        destination: '/gpx-merge',
-        permanent: true,
-      },
-    ]
-  },
   eslint: {
     ignoreDuringBuilds: true,
   },
