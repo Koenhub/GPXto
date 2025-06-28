@@ -2,7 +2,7 @@ export function ConverterInfo() {
   return (
     <section className="py-16 border-t">
       <div className="container mx-auto px-4 max-w-3xl">
-        <h2 className="text-2xl mb-8 text-center">Our Conversion Tools</h2>
+        <h2 className="text-2xl mb-8 text-center">Our conversion tools</h2>
 
         <div className="space-y-12">
           <div className="space-y-4">
