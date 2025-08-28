@@ -561,7 +561,7 @@ export function MergeGpxTool() {
         <div className="space-y-6">
           <div>
             <label htmlFor="gpx-files" className="block mb-2">
-              Upload GPX Files (minimum 2 files):
+              Upload GPX files (minimum 2 files):
             </label>
             <input type="file" id="gpx-files" accept=".gpx" multiple onChange={handleFileChange} className="w-full" />
           </div>
@@ -595,7 +595,7 @@ export function MergeGpxTool() {
               disabled={files.length < 2}
               className="px-4 py-2 bg-black text-white disabled:bg-gray-400"
             >
-              Next: Configure Options
+              Next: Configure options
             </button>
           </div>
         </div>
@@ -604,7 +604,7 @@ export function MergeGpxTool() {
       {currentStep === 2 && (
         <div className="space-y-6">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg">Configure Merge Options</h3>
+            <h3 className="text-lg">Configure merge options</h3>
             <div className="text-sm text-gray-600">
               {files.length} files selected ({(files.reduce((total, file) => total + file.size, 0) / 1024).toFixed(1)}{" "}
               KB total)
@@ -613,13 +613,13 @@ export function MergeGpxTool() {
 
           <div className="p-4 border space-y-4">
             <div className="flex items-center justify-between mb-2">
-              <h4 className="font-medium">File Order</h4>
+              <h4 className="font-medium">File order</h4>
               <button
                 onClick={handleReverseOrder}
                 className="px-2 py-1 text-sm border rounded hover:bg-gray-100"
                 disabled={files.length < 2}
               >
-                Reverse Order
+                Reverse order
               </button>
             </div>
             <p className="text-sm text-gray-600 mb-2">Arrange files in the order you want them to be merged:</p>
@@ -654,7 +654,7 @@ export function MergeGpxTool() {
           </div>
 
           <div className="p-4 border space-y-4">
-            <h4 className="font-medium">Merge Options</h4>
+            <h4 className="font-medium">Merge options</h4>
 
             <div>
               <label className="flex items-center space-x-2">
@@ -712,7 +712,7 @@ export function MergeGpxTool() {
               Back
             </button>
             <button onClick={handleNextStep} className="px-4 py-2 bg-black text-white">
-              Merge Files
+              Merge files
             </button>
           </div>
         </div>
@@ -735,7 +735,7 @@ export function MergeGpxTool() {
       {currentStep === 4 && mergedGpx && (
         <div className="space-y-4">
           <div className="p-4 border">
-            <h3 className="font-medium mb-4">Merge Complete!</h3>
+            <h3 className="font-medium mb-4">Merge complete!</h3>
 
             <div className="space-y-2 mb-4">
               <p className="text-sm text-gray-600">

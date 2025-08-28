@@ -6,24 +6,24 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { ScrollRestoration } from "@/components/scroll-restoration"
 
 export const metadata = {
-  title: "GPXto - Convert GPX Files - Free converter online",
+  title: "GPXto - Convert GPX files - Free GPX converter online",
   description:
     "Free online tools to convert GPX files to KML, PDF, Excel, KMZ, JPG, CSV, GeoJSON, and FIT formats. No registration needed, works in your browser.",
   openGraph: {
-    title: "GPXto - Convert GPX Files Online",
+    title: "GPXto - Convert GPX files online",
     description: "Free online tools to convert GPX files to various formats. All processing happens in your browser.",
     images: [
       {
         url: "/opengraph-image.png",
         width: 1200,
         height: 1200,
-        alt: "GPXto - Convert GPX Files Online",
+        alt: "GPXto - Convert GPX files online",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "GPXto - Convert GPX Files Online",
+    title: "GPXto - Convert GPX files online",
     description: "Free online tools to convert GPX files to various formats. All processing happens in your browser.",
     images: ["/opengraph-image.png"],
   },

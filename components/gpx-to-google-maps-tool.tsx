@@ -685,7 +685,7 @@ export function GpxToGoogleMapsTool() {
         <div className="space-y-6">
           <div>
             <label htmlFor="gpx-file" className="block mb-2">
-              Upload GPX File:
+              Upload GPX file:
             </label>
             <input type="file" id="gpx-file" accept=".gpx" onChange={handleFileChange} className="w-full" />
             {file && (
@@ -700,7 +700,7 @@ export function GpxToGoogleMapsTool() {
               disabled={!file && !gpxContent}
               className="px-4 py-2 bg-black text-white disabled:bg-gray-400"
             >
-              Next: Configure Options
+              Next: Configure options
             </button>
           </div>
         </div>

@@ -3,7 +3,7 @@ import Link from "next/link"
 export function DonationReminder() {
   return (
     <div className="mt-8 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-md">
-      <h3 className="text-lg font-medium mb-2">Support GPXto with a small donation</h3>
+      <h3 className="text-lg font-medium mb-2">Help keep GPXto online and free for everyone</h3>
       <p className="text-sm mb-3">
         Our tools are completely free to use, but we rely on donations to cover server costs and continue development.
         If you find our tools helpful, please consider supporting us with a small donation.
