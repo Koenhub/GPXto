@@ -11,7 +11,7 @@ export function Steps({ currentStep }: StepsProps) {
 
   return (
     <div className="w-full">
-      <h2 className="text-xl mb-6">Convert GPX file</h2>
+      <h2 className="text-xl mb-6">Convert GPX File</h2>
       <div className="flex items-center justify-between w-full mb-4">
         {steps.map((step, index) => (
           <div key={step.id} className="flex flex-col items-center relative">

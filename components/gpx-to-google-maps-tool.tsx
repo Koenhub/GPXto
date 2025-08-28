@@ -695,7 +695,11 @@ export function GpxToGoogleMapsTool() {
             )}
           </div>
           <div>
-            <button onClick={handleNextStep} disabled={!file && !gpxContent} className="px-4 py-2 bg-black text-white">
+            <button
+              onClick={handleNextStep}
+              disabled={!file && !gpxContent}
+              className="px-4 py-2 bg-black text-white disabled:bg-gray-400"
+            >
               Next: Configure Options
             </button>
           </div>
@@ -706,7 +710,7 @@ export function GpxToGoogleMapsTool() {
       {currentStep === 2 && (
         <div className="space-y-6">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg">Configure Google Maps options</h3>
+            <h3 className="text-lg">Configure Google Maps Options</h3>
             {file && (
               <div className="text-sm text-gray-600">
                 File: {file.name} ({(file.size / 1024).toFixed(2)} KB)
@@ -980,38 +984,34 @@ export function GpxToGoogleMapsTool() {
                   </div>
                 </div>
               )}
+              <div className="mt-4">
+                <a
+                  href={googleMapsLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block px-4 py-2 bg-black text-white"
+                  onClick={() => {
+                    trackEvent("link_opened", {
+                      tool: "gpx_to_google_maps",
+                    })
+                  }}
+                >
+                  Open in Google Maps
+                </a>
+              </div>
             </div>
             {!hasDonated && (
-              <div className="p-4 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg">
-                <p className="text-base text-gray-900 dark:text-gray-100 mb-4 font-medium">
-                  The tool is free to use, but it does cost money to maintain. If you find it useful, please consider supporting the site. Thanks for your help!
-                </p>
-                <div className="flex gap-2">
+              <div className="space-y-3 mt-6 pt-4 border-t">
+                <p className="text-sm">Support GPXto to keep our tools free:</p>
+                <div>
                   <a
                     href="https://ko-fi.com/gpxto?utm_source=website&utm_medium=tool&utm_campaign=to_gMaps"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-[2]"
+                    className="block w-full"
                     onClick={() => handleDonate("support")}
                   >
-                    <button className="w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded">
-                      Help keep the website free
-                    </button>
-                  </a>
-                  <a
-                    href={googleMapsLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1"
-                    onClick={() => {
-                      trackEvent("link_opened", {
-                        tool: "gpx_to_google_maps",
-                      })
-                    }}
-                  >
-                    <button className="w-full px-4 py-2 border border-gray-300 text-gray-700 hover:bg-gray-50 rounded">
-                      Open in Google Maps
-                    </button>
+                    <button className="w-full px-4 py-2 bg-black text-white">Support us here</button>
                   </a>
                 </div>
               </div>

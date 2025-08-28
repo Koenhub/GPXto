@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useState, useEffect } from "react"
 import { MapPreview } from "./map-preview"
 import { Route, Ruler, AlertCircle } from "lucide-react"
@@ -98,19 +97,19 @@ export function GpxSplitterTool() {
     }
   }
 
-  useEffect(() => {
-    if (gpxContent) {
-      const stats = calculateRouteStats(gpxContent)
-      setRouteStats(stats)
-    }
-  }, [gpxContent, splitMethod, splitOptions])
-
   const formatDistance = (meters: number) => {
     if (meters >= 1000) {
       return `${(meters / 1000).toFixed(1)} km`
     }
     return `${Math.round(meters)} m`
   }
+
+  useEffect(() => {
+    if (gpxContent) {
+      const stats = calculateRouteStats(gpxContent)
+      setRouteStats(stats)
+    }
+  }, [gpxContent, splitMethod, splitOptions])
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0]
@@ -1202,31 +1201,20 @@ export function GpxSplitterTool() {
             </div>
 
             {!hasDonated ? (
-              <div className="p-4 bg-gray-50 border border-gray-200 rounded-md space-y-4">
-                <div className="text-center">
-                  <h4 className="font-semibold text-gray-900 mb-2">Support GPXto</h4>
-                  <p className="text-sm text-gray-700">
-                    The tool is free to use, but it does cost money to maintain. If you find it useful, please consider
-                    supporting the site. Thanks for your help!
-                  </p>
-                </div>
-                <div className="flex gap-2">
+              <div className="space-y-3">
+                <p className="text-sm">Support GPXto to download all files as a ZIP:</p>
+                <div className="space-y-2">
                   <a
                     href="https://ko-fi.com/gpxto?utm_source=website&utm_medium=tool&utm_campaign=splitter"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-[2]"
+                    className="block w-full"
                     onClick={() => handleDonate("2")}
                   >
-                    <button className="w-full px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-                      Help keep the website free
-                    </button>
+                    <button className="w-full px-4 py-2 bg-black text-white">Download all & support</button>
                   </a>
-                  <button
-                    onClick={handleDownloadAll}
-                    className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded hover:bg-gray-50"
-                  >
-                    Download all files
+                  <button onClick={handleDownloadAll} className="w-full px-4 py-2 text-sm">
+                    Download all without donating
                   </button>
                 </div>
               </div>
