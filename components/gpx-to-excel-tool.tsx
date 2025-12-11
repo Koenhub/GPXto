@@ -365,7 +365,7 @@ export function GpxToExcelTool() {
             <div className="space-y-6">
               <div>
                 <label htmlFor="file-upload" className="block mb-2">
-                  Upload GPX File:
+                  Upload GPX file:
                 </label>
                 <input type="file" id="file-upload" accept=".gpx" onChange={handleFileChange} className="w-full" />
                 {file && (
