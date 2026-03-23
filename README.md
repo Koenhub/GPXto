@@ -1,30 +1,79 @@
-# GPXto
+# GPXto 🗺️
 
-*Automatically synced with your [v0.dev](https://v0.dev) deployments*
+**Free online tools to convert, merge, and split GPX files — directly in your browser.**
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/koens-projects-f6a190cc/v0-gpx-to)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.dev-black?style=for-the-badge)](https://v0.dev/chat/projects/Id2rJQT7WiA)
+🌐 [gpxto.com](https://gpxto.com)
 
-## Overview
+---
 
-This repository will stay in sync with your deployed chats on [v0.dev](https://v0.dev).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.dev](https://v0.dev).
+## What is GPXto?
 
-## Deployment
+GPXto is a collection of free, browser-based tools for working with GPX (GPS Exchange Format) files. Whether you're a hiker, cyclist, runner, or developer working with geospatial data, GPXto makes it easy to convert and manipulate GPS data without installing any software.
 
-Your project is live at:
+> **Privacy first:** All processing happens entirely in your browser. Your files never leave your device — no data is sent to or stored on our servers.
 
-**[https://vercel.com/koens-projects-f6a190cc/v0-gpx-to](https://vercel.com/koens-projects-f6a190cc/v0-gpx-to)**
+---
 
-## Build your app
+## Features
 
-Continue building your app on:
+### 🔄 Convert GPX to other formats
 
-**[https://v0.dev/chat/projects/Id2rJQT7WiA](https://v0.dev/chat/projects/Id2rJQT7WiA)**
+| Format | Description |
+|--------|-------------|
+| **KML** | For use in Google Earth and other mapping applications |
+| **KMZ** | Compressed KML, ideal for sharing |
+| **PDF** | Printable route maps with elevation profiles |
+| **Excel (XLSX)** | Analyze your route data in spreadsheet software |
+| **CSV** | Universal tabular format for data analysis and databases |
+| **GeoJSON** | Standard format for web mapping and GIS applications |
+| **FIT** | For Garmin devices, fitness watches, and bike computers |
+| **Google Maps** | Generate shareable Google Maps links for your routes |
+| **JPG** | Export your route as an image |
 
-## How It Works
+### 🔀 Merge GPX files
+Combine multiple GPX files into a single file. Useful for joining tracks from different days or devices into one comprehensive route. Track order can be arranged chronologically.
 
-1. Create and modify your project using [v0.dev](https://v0.dev)
-2. Deploy your chats from the v0 interface
-3. Changes are automatically pushed to this repository
-4. Vercel deploys the latest version from this repository
+### ✂️ Split GPX files
+Divide a large GPX file into multiple smaller files. Split by:
+- **Distance** — e.g., a new file every 5 km or miles
+- **Time intervals**
+- **Number of trackpoints**
+- **Number of parts** — divide into equal segments
+
+---
+
+## Why GPXto?
+
+- ✅ **Free** — no subscription, no hidden costs
+- ✅ **No registration** required
+- ✅ **Privacy-focused** — all processing runs in your browser
+- ✅ **No software to install** — works on any device with a modern browser
+- ✅ **Interactive map preview** — see results before downloading
+
+---
+
+## Use Cases
+
+- 🥾 Hikers sharing trails with friends who don't have GPS apps
+- 🚴 Cyclists transferring routes to Garmin devices
+- 🏃 Runners analyzing activity data in Excel or Google Sheets
+- 💻 Developers working with geospatial data in GeoJSON or CSV
+- 🗺️ Anyone breaking up or combining multi-day routes
+
+---
+
+## Contributing
+
+Contributions, bug reports, and feature requests are welcome! Please open an issue or submit a pull request.
+
+---
+
+## Support
+
+GPXto is free to use. If you find it useful, consider supporting the project on [Ko-fi](https://ko-fi.com) to help cover server costs and fund new features.
+
+---
+
+## License
+
+See [LICENSE](LICENSE) for details.
