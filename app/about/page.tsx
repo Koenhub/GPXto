@@ -134,8 +134,8 @@ export default function AboutPage() {
         <p>
           While our tools are free to use, we rely on donations to cover server costs and continue developing new
           features. If you find our tools helpful, please consider{" "}
-          <a href="https://ko-fi.com/gpxto?utm_source=website&utm_medium=page&utm_campaign=about" target="_blank" rel="noopener noreferrer">
-            supporting us on Ko-fi
+          <a href="https://buymeacoffee.com/koen?utm_source=website&utm_medium=page&utm_campaign=about" target="_blank" rel="noopener noreferrer">
+            supporting us on Buy Me a Coffee
           </a>
           . Your contributions help us maintain and improve these services for everyone.
         </p>
