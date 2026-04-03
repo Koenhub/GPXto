@@ -505,11 +505,11 @@ export function GpxToCsvTool() {
                 ) : (
                   <>
                     <button onClick={handleDownload} className="w-full mb-2 px-4 py-2 bg-black text-white">
-                      Download Again
+                      Download again
                     </button>
                     <p className="text-xs text-center text-gray-600 mb-2">Thank you for your support!</p>
                     <button onClick={handleReset} className="w-full px-4 py-2 border">
-                      Convert Another File
+                      Convert another file
                     </button>
                   </>
                 )}
