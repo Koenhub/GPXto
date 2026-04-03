@@ -620,7 +620,7 @@ export function FileUploadSimple({ initialConversionType = "", isComingSoon = fa
                 <p className="text-sm">Support GPXto to download your file:</p>
                 <div className="space-y-2">
                   <a
-                    href="https://ko-fi.com/gpxto"
+                    href="https://buymeacoffee.com/koen"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="block w-full"

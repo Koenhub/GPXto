@@ -407,7 +407,7 @@ export function NavbarClient() {
           </div>
 
           <a
-            href="https://ko-fi.com/gpxto?utm_source=website&utm_medium=header&utm_campaign=menu"
+            href="https://buymeacoffee.com/koen?utm_source=website&utm_medium=header&utm_campaign=menu"
             target="_blank"
             rel="noopener noreferrer"
             className="text-sm sm:text-base hover:text-primary transition-colors no-underline flex items-center gap-1"

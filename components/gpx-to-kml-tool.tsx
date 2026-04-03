@@ -398,7 +398,7 @@ export function GpxToKmlTool() {
                     <p className="text-sm">Support GPXto to download your file:</p>
                     <div className="space-y-2">
                       <a
-                        href="https://ko-fi.com/gpxto?utm_source=website&utm_medium=tool&utm_campaign=to_kml"
+                        href="https://buymeacoffee.com/koen?utm_source=website&utm_medium=tool&utm_campaign=to_kml"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="block w-full"
@@ -414,11 +414,11 @@ export function GpxToKmlTool() {
                 ) : (
                   <>
                     <button onClick={handleDownload} className="w-full mb-2 px-4 py-2 bg-black text-white">
-                      Download Again
+                      Download again
                     </button>
                     <p className="text-xs text-center text-gray-600 mb-2">Thank you for your support!</p>
                     <button onClick={handleReset} className="w-full px-4 py-2 border">
-                      Convert Another File
+                      Convert another file
                     </button>
                   </>
                 )}

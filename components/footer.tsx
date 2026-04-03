@@ -139,7 +139,7 @@ export function Footer() {
       <div className="py-6 border-t">
         <div className="flex flex-wrap gap-x-6 gap-y-2 mb-4">
           <Link
-            href="https://ko-fi.com/gpxto?utm_source=website&utm_medium=footer&utm_campaign=menu"
+            href="https://buymeacoffee.com/koen?utm_source=website&utm_medium=footer&utm_campaign=menu"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-primary flex items-center gap-1"
