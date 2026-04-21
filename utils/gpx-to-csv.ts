@@ -1,4 +1,4 @@
-import { DOMParser } from "xmldom"
+import { DOMParser } from "@xmldom/xmldom"
 
 interface ConversionOptions {
   delimiter?: string
