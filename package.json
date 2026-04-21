@@ -61,7 +61,7 @@
     "tailwind-merge": "^3.3.1",
     "tailwindcss-animate": "^1.0.7",
     "vaul": "^1.1.2",
-    "xlsx": "0.20.3",
+    "xlsx": "0.18.5",
     "@xmldom/xmldom": "0.9.10",
     "zod": "3.25.76"
   },
