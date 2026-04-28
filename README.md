@@ -10,8 +10,6 @@
 
 GPXto is a collection of free, browser-based tools for working with GPX (GPS Exchange Format) files. Whether you're a hiker, cyclist, runner, or developer working with geospatial data, GPXto makes it easy to convert and manipulate GPS data without installing any software.
 
-> **Privacy first:** All processing happens entirely in your browser. Your files never leave your device — no data is sent to or stored on our servers.
-
 ---
 
 ## Features
