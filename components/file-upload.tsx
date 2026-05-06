@@ -3,7 +3,8 @@
 import type React from "react"
 
 import { useState, useEffect } from "react"
-import { Upload, FileUp, AlertCircle, Download, ArrowLeft, ArrowRight } from "lucide-react"
+import { Upload, FileUp, AlertCircle, Download, ArrowLeft, ArrowRight, Smartphone } from "lucide-react"
+import { QRCodeSVG } from "qrcode.react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -408,32 +409,64 @@ export function FileUpload() {
                     {!hasDonated ? (
                       <div className="space-y-3">
                         <p className="text-sm">Support GPXto to download your file:</p>
-                        <div className="space-y-2">
-                          <a
-                            href="https://buymeacoffee.com/koen"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="block w-full"
-                            onClick={() => handleDonate("2")}
-                          >
-                            <Button className="w-full">Donate €2 & Download</Button>
-                          </a>
-                          <Button variant="ghost" className="w-full text-sm border-none" onClick={handleDownload}>
-                            Download without donating
-                          </Button>
+                        <div className="flex gap-4 items-start">
+                          {/* QR Code for mobile donation */}
+                          <div className="flex-shrink-0 bg-white p-2 rounded-lg">
+                            <QRCodeSVG
+                              value="https://buymeacoffee.com/koen?utm_source=website&utm_medium=converter_QR&utm_campaign=donation"
+                              size={80}
+                              level="M"
+                              includeMargin={false}
+                            />
+                            <p className="text-[10px] text-center text-gray-600 mt-1 flex items-center justify-center gap-1">
+                              <Smartphone className="h-3 w-3" />
+                              Scan to donate
+                            </p>
+                          </div>
+                          {/* Buttons */}
+                          <div className="flex-1 space-y-2">
+                            <a
+                              href="https://buymeacoffee.com/koen?utm_source=website&utm_medium=converter&utm_campaign=donation"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="block w-full"
+                              onClick={() => handleDonate("2")}
+                            >
+                              <Button className="w-full">Donate €2 & Download</Button>
+                            </a>
+                            <Button variant="ghost" className="w-full text-sm border-none" onClick={handleDownload}>
+                              Download without donating
+                            </Button>
+                          </div>
                         </div>
                       </div>
                     ) : (
-                      <>
-                        <Button onClick={handleDownload} className="w-full mb-2 flex items-center justify-center gap-2">
-                          <Download className="h-4 w-4" />
-                          Download again
-                        </Button>
-                        <p className="text-xs text-center text-muted-foreground mb-2">Thank you for your support!</p>
-                        <Button variant="outline" className="w-full" onClick={handleReset}>
-                          Start Over
-                        </Button>
-                      </>
+                      <div className="flex gap-4 items-start">
+                        {/* QR Code for mobile donation */}
+                        <div className="flex-shrink-0 bg-white p-2 rounded-lg">
+                          <QRCodeSVG
+                            value="https://buymeacoffee.com/koen?utm_source=website&utm_medium=converter_QR&utm_campaign=donation"
+                            size={80}
+                            level="M"
+                            includeMargin={false}
+                          />
+                          <p className="text-[10px] text-center text-gray-600 mt-1 flex items-center justify-center gap-1">
+                            <Smartphone className="h-3 w-3" />
+                            Scan to donate
+                          </p>
+                        </div>
+                        {/* Buttons */}
+                        <div className="flex-1 space-y-2">
+                          <Button onClick={handleDownload} className="w-full flex items-center justify-center gap-2">
+                            <Download className="h-4 w-4" />
+                            Download again
+                          </Button>
+                          <p className="text-xs text-center text-muted-foreground">Thank you for your support!</p>
+                          <Button variant="outline" className="w-full" onClick={handleReset}>
+                            Start Over
+                          </Button>
+                        </div>
+                      </div>
                     )}
                   </div>
                 </div>
