@@ -409,20 +409,7 @@ export function FileUpload() {
                     {!hasDonated ? (
                       <div className="space-y-3">
                         <p className="text-sm">Support GPXto to download your file:</p>
-                        <div className="flex gap-4 items-start">
-                          {/* QR Code for mobile donation */}
-                          <div className="flex-shrink-0 bg-white p-2 rounded-lg">
-                            <QRCodeSVG
-                              value="https://buymeacoffee.com/koen?utm_source=website&utm_medium=converter_QR&utm_campaign=donation"
-                              size={80}
-                              level="M"
-                              includeMargin={false}
-                            />
-                            <p className="text-[10px] text-center text-gray-600 mt-1 flex items-center justify-center gap-1">
-                              <Smartphone className="h-3 w-3" />
-                              Scan to donate
-                            </p>
-                          </div>
+                        <div className="flex gap-4 items-center">
                           {/* Buttons */}
                           <div className="flex-1 space-y-2">
                             <a
@@ -432,29 +419,31 @@ export function FileUpload() {
                               className="block w-full"
                               onClick={() => handleDonate("2")}
                             >
-                              <Button className="w-full">Donate €2 & Download</Button>
+                              <Button className="w-full">Donate & Download</Button>
                             </a>
                             <Button variant="ghost" className="w-full text-sm border-none" onClick={handleDownload}>
                               Download without donating
                             </Button>
                           </div>
+                          {/* QR Code for mobile donation */}
+                          <div className="flex-shrink-0 bg-white p-2 rounded-lg border shadow-sm">
+                            <QRCodeSVG
+                              value="https://buymeacoffee.com/koen?utm_source=website&utm_medium=converter_QR&utm_campaign=donation"
+                              size={72}
+                              level="M"
+                              includeMargin={false}
+                              bgColor="#ffffff"
+                              fgColor="#000000"
+                            />
+                            <p className="text-[9px] text-center text-muted-foreground mt-1 flex items-center justify-center gap-0.5">
+                              <Smartphone className="h-2.5 w-2.5" />
+                              Mobile
+                            </p>
+                          </div>
                         </div>
                       </div>
                     ) : (
-                      <div className="flex gap-4 items-start">
-                        {/* QR Code for mobile donation */}
-                        <div className="flex-shrink-0 bg-white p-2 rounded-lg">
-                          <QRCodeSVG
-                            value="https://buymeacoffee.com/koen?utm_source=website&utm_medium=converter_QR&utm_campaign=donation"
-                            size={80}
-                            level="M"
-                            includeMargin={false}
-                          />
-                          <p className="text-[10px] text-center text-gray-600 mt-1 flex items-center justify-center gap-1">
-                            <Smartphone className="h-3 w-3" />
-                            Scan to donate
-                          </p>
-                        </div>
+                      <div className="flex gap-4 items-center">
                         {/* Buttons */}
                         <div className="flex-1 space-y-2">
                           <Button onClick={handleDownload} className="w-full flex items-center justify-center gap-2">
@@ -465,6 +454,21 @@ export function FileUpload() {
                           <Button variant="outline" className="w-full" onClick={handleReset}>
                             Start Over
                           </Button>
+                        </div>
+                        {/* QR Code for mobile donation */}
+                        <div className="flex-shrink-0 bg-white p-2 rounded-lg border shadow-sm">
+                          <QRCodeSVG
+                            value="https://buymeacoffee.com/koen?utm_source=website&utm_medium=converter_QR&utm_campaign=donation"
+                            size={72}
+                            level="M"
+                            includeMargin={false}
+                            bgColor="#ffffff"
+                            fgColor="#000000"
+                          />
+                          <p className="text-[9px] text-center text-muted-foreground mt-1 flex items-center justify-center gap-0.5">
+                            <Smartphone className="h-2.5 w-2.5" />
+                            Mobile
+                          </p>
                         </div>
                       </div>
                     )}
